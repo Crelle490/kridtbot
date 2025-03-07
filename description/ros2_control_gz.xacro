@@ -89,20 +89,6 @@
 
     </ros2_control>
 
-    <ros2_control name="GazeboSystemIMU" type="sensor">
-
-        <!-- Hardware interface for GZ-->
-        <hardware>
-            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-        </hardware>
-
-        <!-- All continous joints-->
-        <sensor name="imu">
-            <param name="frame_id">imu_link</param>
-        </sensor>
-
-    </ros2_control>
-
 
     <gazebo>
           <plugin name="gz_ros2_control::GazeboSimROS2ControlPlugin" filename="libgz_ros2_control-system.so">
