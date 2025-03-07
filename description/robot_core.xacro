@@ -101,7 +101,7 @@
 
 
   <!-- _____________ 1. LEFT DIFF LINK ____________-->
-  <joint name="left_diff" type="continuous">
+  <joint name="left_diff" type="fixed">
     <origin xyz="0 0 -0.28" rpy="-3.1416 0 -3.1416"/>
     <axis xyz="0 0 1"/>
     <parent link="diff_link"/>
@@ -292,7 +292,7 @@
   </gazebo>
 
   <!-- _____________ 2. RIGHT DIFF LINK____________-->
-  <joint name="right_diff" type="continuous">
+  <joint name="right_diff" type="fixed">
     <origin xyz="0 0 0.28" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="diff_link"/>
@@ -480,7 +480,7 @@
 
 
 <!-- _____________ 3. CENTER DIFF LINK____________-->
-  <joint name="center_diff" type="continuous">
+  <joint name="center_diff" type="fixed">
     <origin xyz="0.0 0.05 0" rpy="1.57079632679 0 0"/> <!-- Adjusted orientation -->
     <axis xyz="0 0 1"/>  <!-- Rotates along X-axis -->
     <parent link="diff_link"/>
