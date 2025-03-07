@@ -36,7 +36,7 @@
   gz_type_name: "gz.msgs.Image"
   direction: GZ_TO_ROS
   # gz topic published by IMU
-- ros_topic_name: "imu_broad/imu"
+- ros_topic_name: "imu_sensor_broadcaster/imu"
   gz_topic_name: "imu"
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "gz.msgs.IMU"
