@@ -97,9 +97,6 @@
     <mu2 value="1"/>
   </gazebo>
 
-
-
-
   <!-- _____________ 1. LEFT DIFF LINK ____________-->
   <joint name="left_diff" type="continuous">
     <origin xyz="0 0 -0.28" rpy="-3.1416 0 -3.1416"/>
