@@ -97,7 +97,7 @@
         </hardware>
 
         <!-- All continous joints-->
-        <sensor name="bno055">
+        <sensor name="imu">
             <param name="frame_id">imu_link</param>
         </sensor>
 
