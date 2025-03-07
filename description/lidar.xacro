@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Fix Lidar Message type -->
+    <!-- Fix vertical sampling-->
+
+    <!-- Lidar Joint -->
+    <joint name="lidar_joint" type="fixed">
+        <parent link="chassis_link"/>
+        <child link="lidar_link"/>
+        <origin xyz="0 0 -0.23" rpy="0 0 0"/>
+    </joint>
+    
+    <!-- Lidar Link -->
+    <link name="lidar_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="-1.578 0 0"/> 
+            <geometry>
+                <mesh filename="file:$(find kridtbot)/meshes/mid-360-asm copy.STL" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="-1.578 0 0"/> 
+            <geometry>
+                <mesh filename="file:$(find kridtbot)/meshes/mid-360-asm copy.STL" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- FOV -->
+
+    <link name="lidar_optical_link">
+        <visual>
+            <geometry>
+                <mesh filename="file:$(find kridtbot)/meshes/mid-360-fov-asm.STL" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="blue opaque"/>
+        </visual>
+    </link>
+
+    <joint name="lidar_optical_joint" type="fixed">
+        <parent link="lidar_link"/>
+        <child link="lidar_optical_link"/>
+        <origin xyz="0 0 -0.02" rpy="-1.578 0 0"/>
+    </joint>
+
+    <!-- Gazebo Sensor Definition -->
+    <gazebo reference="lidar_link">
+        <sensor type="gpu_lidar" name="lidar_sensor">
+            <visualize>false</visualize>  <!-- Visualization causes crashes, disable if needed -->
+            <pose>0 0 0 0 0 0</pose>
+            <update_rate>10</update_rate>  <!-- 10 Hz scan update -->
+            <lidar>
+            <!-- Information from Livox specs -->
+                <scan>
+                    <horizontal>
+                        <samples>360</samples>  <!-- 360 points per rotation -->
+                        <!--<resolution>1</resolution> -->
+                        <min_angle>-3.14</min_angle>
+                        <max_angle>3.14</max_angle>
+                    </horizontal>
+                    <vertical>
+                        <samples>10</samples>  <!-- 1 vertical scan -->
+                        <min_angle>0</min_angle>
+                        <max_angle>-1</max_angle>
+                    </vertical>
+                </scan>
+                <range>
+                    <min>0.1</min>  <!-- 10 cm min detection -->
+                    <max>12</max>  <!-- 70 m max detection -->
+                    <!--<resolution>0.02</resolution> -->  <!-- 2 cm precision -->
+                </range>
+            </lidar>
+            <topic>lidar/points</topic>
+            <gz_frame_id>lidar_link</gz_frame_id>
+        </sensor>
+
+    </gazebo>
+</robot>

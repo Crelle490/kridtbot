@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- ROS2 Control plugin for Gazebo-->
+    <ros2_control name="myactuator_controller_right_rear_wheel" type="actuator">
+        <hardware>
+            <plugin>myactuator_rmd_hardware/MyActuatorRmdHardwareInterface</plugin>
+            <param name="ifname">can1</param>
+            <param name="actuator_id">5</param>
+            <param name="torque_constant">2.023914969</param>
+            <param name="velocity_alpha">0.1</param>
+            <param name="effort_alpha">0.1</param>
+            <param name="cycle_time">1</param>
+        </hardware>
+        <joint name="right_rear_wheel">
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <command_interface name="effort"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+    </ros2_control>
+    <ros2_control name="myactuator_controller_right_front_wheel" type="actuator">
+        <hardware>
+            <plugin>myactuator_rmd_hardware/MyActuatorRmdHardwareInterface</plugin>
+            <param name="ifname">can2</param>
+            <param name="actuator_id">4</param>
+            <param name="torque_constant">2.023914969</param>
+            <param name="velocity_alpha">0.1</param>
+            <param name="effort_alpha">0.1</param>
+            <param name="cycle_time">1</param>
+        </hardware>
+        <joint name="right_front_wheel">
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <command_interface name="effort"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+    </ros2_control>
+    <ros2_control name="myactuator_controller_left_front_wheel" type="actuator">
+        <hardware>
+            <plugin>myactuator_rmd_hardware/MyActuatorRmdHardwareInterface</plugin>
+            <param name="ifname">can3</param>
+            <param name="actuator_id">6</param>
+            <param name="torque_constant">2.023914969</param>
+            <param name="velocity_alpha">0.1</param>
+            <param name="effort_alpha">0.1</param>
+            <param name="cycle_time">1</param>
+        </hardware>
+        <joint name="left_front_wheel">
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <command_interface name="effort"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+    </ros2_control>
+    <ros2_control name="myactuator_controller_left_rear_wheel" type="actuator">
+        <hardware>
+            <plugin>myactuator_rmd_hardware/MyActuatorRmdHardwareInterface</plugin>
+            <param name="ifname">can4</param>
+            <param name="actuator_id">7</param>
+            <param name="torque_constant">2.023914969</param>
+            <param name="velocity_alpha">0.1</param>
+            <param name="effort_alpha">0.1</param>
+            <param name="cycle_time">1</param>
+        </hardware>
+        <joint name="left_rear_wheel">
+            <command_interface name="position"/>
+            <command_interface name="velocity"/>
+            <command_interface name="effort"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+    </ros2_control>
+</robot>

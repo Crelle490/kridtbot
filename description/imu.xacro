@@ -1,0 +1,109 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- _____________DIFF TO IMU JOINT____________-->
+  <joint name="diff_to_imu" type="fixed">
+    <origin xyz="0 -0.038 0" rpy="1.57079633 3.14159265 0"/>
+    <parent link="diff_link"/>
+    <child link="imu_link"/>
+  </joint>
+
+  <!-- _____________IMU LINK____________-->
+  <link name="imu_link">
+    <visual>
+      <origin xyz="-0.028 -0.019 -0.01" rpy="1.57079633 0 1.57079633"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/imu_link.STL"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/imu_link.STL"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="0.02302"/>
+      <inertia ixx="3763.33e-9" ixy="0" ixz="0" iyy="6942.61e-9" iyz="0" izz="9041.46e-9"/>
+    </inertial>
+  </link>
+
+    <!-- Gazebo Sensor Definition -->
+    <gazebo reference="imu_link">
+        <material>Gazebo/Black</material>
+        <sensor name="imu" type="imu">
+        <always_on>true</always_on>
+        <update_rate>200</update_rate>
+        <topic>imu</topic>
+        <imu>
+            <frame>imu_link</frame>
+      <angular_velocity>
+        <x>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>2e-4</stddev>
+          </noise>
+        </x>
+        <y>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>2e-4</stddev>
+          </noise>
+        </y>
+        <z>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>2e-4</stddev>
+          </noise>
+        </z>
+      </angular_velocity>
+      <linear_acceleration>
+        <x>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>1.7e-2</stddev>
+          </noise>
+        </x>
+        <y>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>1.7e-2</stddev>
+          </noise>
+        </y>
+        <z>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>1.7e-2</stddev>
+          </noise>
+        </z>
+      </linear_acceleration>
+      <orientation>
+        <x>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>2e-3</stddev>
+           </noise>
+        </x>
+        <y>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>2e-3</stddev>
+          </noise>
+        </y>
+        <z>
+          <noise type="gaussian">
+            <mean>0.0</mean>
+            <stddev>2e-3</stddev>
+          </noise>
+        </z>
+      </orientation>
+        </imu>
+ 
+        </sensor>
+
+
+    </gazebo>
+</robot>
+

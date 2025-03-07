@@ -1,0 +1,522 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Materials -->
+  <material name="orange">
+    <color rgba="${252/255} ${188/255} ${132/255} 1" /> 
+  </material>
+
+  <material name="black">
+    <color rgba="${64/255} ${64/255} ${64/255} 1" /> 
+  </material>
+
+  <material name="blue opaque">
+    <color rgba="${0/255} ${0/255} ${255/255} 0.4" />
+  </material>
+
+  <material name="mesh_color">
+    <color rgba="${0/255} ${0/255} ${255/255} 0.6" /> 
+  </material>
+  
+  <!-- ________BASE LINK__________-->
+  <link name="base_link" />
+
+  <joint name="base_footprint_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="base_footprint"/>
+  </joint>
+
+  <link name="base_footprint" />
+
+  <joint name="base_to_chassis" type="fixed">
+    <origin xyz="0 0 0" rpy="-3.1415 0 1.57079632679"/>
+    <parent link="base_link"/>
+    <child link="chassis_link"/>
+  </joint>
+
+  <!-- _____________CHASSIS LINK_____________-->
+  <link name="chassis_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/base_link.STL"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/base_link.STL"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="11.18100"/>
+      <inertia ixx="0.52" ixy="0.00" ixz="0.00" iyy="0.48" iyz="0.04" izz="0.60"/>
+    </inertial>
+  </link> 
+
+  <gazebo reference="chassis_link">
+    <material>Gazebo/Orange</material>
+    <mu1 value="1"/>
+    <mu2 value="1"/>
+  </gazebo>
+
+  <!-- _____________DIFF LINK____________-->
+  <joint name="chassis_to_diff" type="fixed">
+    <origin xyz="-0.00062572 0.016893 -0.01406" rpy="1.5708 0 -1.5708"/>
+    <parent link="chassis_link"/>
+    <child link="diff_link"/>
+  </joint>
+
+  <link name="diff_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/diff_link.STL"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/diff_link.STL"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="1.44"/>
+      <inertia ixx="2024193.31e-9" ixy="258.53e-9" ixz="-42.56e-9" iyy="1553917.67e-9" iyz="559.93e-9" izz="1298088.14e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="diff_link">
+    <material>Gazebo/Orange</material>
+    <mu1 value="1"/>
+    <mu2 value="1"/>
+  </gazebo>
+
+
+
+
+  <!-- _____________ 1. LEFT DIFF LINK ____________-->
+  <joint name="left_diff" type="fixed">
+    <origin xyz="0 0 -0.28" rpy="-3.1416 0 -3.1416"/>
+    <axis xyz="0 0 1"/>
+    <parent link="diff_link"/>
+    <child link="left_diff_link"/>
+    <!--<mimic joint="center_diff" multiplier="1" offset="0"/> -->
+  </joint>
+
+  <gazebo reference="left_diff">
+    <material>Gazebo/Black</material>
+    <mu1 value="1000"/>
+    <mu2 value="1000"/>
+    <provideFeedback>true</provideFeedback>
+    <implicitSpringDamper>true</implicitSpringDamper>
+  </gazebo>
+
+  <link name="left_diff_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/left_diff_link.STL"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/left_diff_link.STL"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="7.30200"/>
+      <inertia ixx="133810302.00e-9" ixy="35430.13e-9" ixz="356.93e-9" iyy="282054578.10e-9" iyz="-2296.44e-9" izz="397598064.18e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="left_diff_link">
+    <material>Gazebo/Black</material>
+    <mu1 value="1"/>
+    <mu2 value="1"/>
+  </gazebo>
+
+  <!-- _____________LEFT REAR LINEAR ACtuator____________-->  
+
+  <joint name="left_rear_linear" type="prismatic">
+    <limit effort="1000.0" lower="0" upper="0.13" velocity="0.5"/>
+    <origin xyz="-0.216 -0.0010724 0" rpy="-1.5708 0 0.0049647"/>
+    <axis xyz="0 0 1"/>
+    <parent link="left_diff_link"/>
+    <child link="left_rear_lin_link"/>
+  </joint>
+
+  <link name="left_rear_lin_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/left_rear_lin_link.STL"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/left_rear_lin_link.STL"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="1.04456"/>
+      <inertia ixx="59743728.97e-9" ixy="-5941.33e-9" ixz="293509.06e-9" iyy="59856745.28e-9" iyz="-1015856.43e-9" izz="595093.96e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="left_rear_lin_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <!-- _____________LEFT REAR wheel ____________-->
+  <joint name="left_rear_wheel" type="continuous">
+    <origin xyz="0.0012158 0 0.2449" rpy="1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="left_rear_lin_link"/>
+    <child link="left_rear_rev_link"/>
+    <dynamics damping="0.7" friction="1"/>
+  </joint>
+
+  <link name="left_rear_rev_link">
+    <visual>
+      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0865" length="0.05234"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0865" length="0.05234"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="1.01100"/>
+      <inertia ixx="5844491.97e-9" ixy="-376.28e-9" ixz="-3671.08e-9" iyy="5842839.83e-9" iyz="-796.72e-9" izz="3646247.90e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="left_rear_rev_link">
+    <material>Gazebo/Orange</material>
+    <mu1 value="3"/>
+    <mu2 value="3"/>
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+  </gazebo>
+
+  <!-- _____________LEFT FRONT LINEAR actuator____________-->
+  <joint name="left_front_linear" type="prismatic">
+    <limit effort="1000.0" lower="0" upper="0.13" velocity="0.5"/> 
+    <origin xyz="0.216 0.0010724 0" rpy="-1.5708 0 0.0049647"/>
+    <axis xyz="0 0 1"/>
+    <parent link="left_diff_link"/>
+    <child link="left_front_lin_link"/>
+  </joint>
+
+  <link name="left_front_lin_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/front_left_lin_link.STL"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/front_left_lin_link.STL"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="1.04456"/>
+      <inertia ixx="59743728.97e-9" ixy="-5941.33e-9" ixz="293509.06e-9" iyy="59856745.28e-9" iyz="-1015856.43e-9" izz="595093.96e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="left_front_lin_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+
+  <!-- _____________LEFT FRONT wheel ____________-->
+  <joint name="left_front_wheel" type="continuous">
+    <origin xyz="0.0012158 0 0.2449" rpy="1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="left_front_lin_link"/>
+    <child link="left_front_rev_link"/>
+    <dynamics damping="0.7" friction="1"/>
+  </joint>
+
+  <link name="left_front_rev_link">
+    <visual>
+      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0865" length="0.05234"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0865" length="0.05234"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="1.01100"/>
+      <inertia ixx="5844491.97e-9" ixy="-376.28e-9" ixz="-3671.08e-9" iyy="5842839.83e-9" iyz="-796.72e-9" izz="3646247.90e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="left_front_rev_link">
+    <material>Gazebo/Black</material>
+    <mu1 value="3"/>
+    <mu2 value="3"/>
+    <slip1 value="1"/>
+    <slip2 value="1"/>
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+  </gazebo>
+
+  <!-- _____________ 2. RIGHT DIFF LINK____________-->
+  <joint name="right_diff" type="fixed">
+    <origin xyz="0 0 0.28" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="diff_link"/>
+    <child link="right_diff_link"/>
+    <!--<mimic joint="center_diff" multiplier="-1" offset="0"/>-->
+  </joint>
+  
+  <link name="right_diff_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/rigth_diff_link.STL"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/rigth_diff_link.STL"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="7.30200"/>
+      <inertia ixx="133810688.94e-9" ixy="319399.82e-9" ixz="2255.98e-9" iyy="282053860.06e-9" iyz="-558.22e-9" izz="397597733.07e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="right_diff_link">
+    <material>Gazebo/Black</material>
+    <mu1 value="1"/>
+    <mu2 value="1"/>
+  </gazebo>
+  
+  <!-- _____________RIGHT REAR LINEAR actuator ____________-->
+  <joint name="right_rear_linear" type="prismatic">
+    <limit effort="1000.0" lower="0" upper="0.13" velocity="0.5"/>
+    <origin xyz="0.216 -0.0010724 0" rpy="-1.5708 0 0.0049647"/>
+    <axis xyz="0 0 1"/>
+    <parent link="right_diff_link"/>
+    <child link="right_rear_lin_link"/>
+  </joint>
+  
+  <link name="right_rear_lin_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/right_rear_lin_link.STL"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/right_rear_lin_link.STL"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="1.04456"/>
+      <inertia ixx="59743728.97e-9" ixy="-5941.33e-9" ixz="293509.06e-9" iyy="59856745.28e-9" iyz="-1015856.43e-9" izz="595093.96e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="right_rear_lin_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  
+  <!-- _____________RIGHT REAR wheel ____________-->
+  <joint name="right_rear_wheel" type="continuous">
+    <origin xyz="0.0012158 0 0.2449" rpy="1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="right_rear_lin_link"/>
+    <child link="right_rear_rev_link"/>
+    <dynamics damping="0.7" friction="1"/>
+  </joint>
+  
+  <link name="right_rear_rev_link">
+    <visual>
+      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0865" length="0.05234"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0865" length="0.05234"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="1.01100"/>
+      <inertia ixx="5844491.97e-9" ixy="-376.28e-9" ixz="-3671.08e-9" iyy="5842839.83e-9" iyz="-796.72e-9" izz="3646247.90e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="right_rear_rev_link">
+    <material>Gazebo/Orange</material>
+    <mu1 value="3"/>
+    <mu2 value="3"/>
+    <slip1 value="1"/>
+    <slip2 value="1"/>
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+  </gazebo>
+  
+  <!-- _____________RIGHT FRONT LINEAR actuator ____________-->
+  <joint name="right_front_linear" type="prismatic">
+    <limit effort="1000.0" lower="0" upper="0.13" velocity="0.5"/>
+    <origin xyz="-0.216 0.0010724 0" rpy="-1.5708 0 0.0049647"/>
+    <axis xyz="0 0 1"/>
+    <parent link="right_diff_link"/>
+    <child link="right_front_lin_link"/>
+  </joint>
+  
+  <link name="right_front_lin_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/right_front_lin_link.STL"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="file:$(find kridtbot)/meshes/right_front_lin_link.STL"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="1.04456"/>
+      <inertia ixx="59743728.97e-9" ixy="-5941.33e-9" ixz="293509.06e-9" iyy="59856745.28e-9" iyz="-1015856.43e-9" izz="595093.96e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="right_front_lin_link">
+    <material>Gazebo/Black</material>
+  </gazebo>
+  
+
+
+  <!-- _____________RIGHT FRONT wheel ____________-->
+  <joint name="right_front_wheel" type="continuous">
+    <origin xyz="0.0012158 0 0.2449" rpy="1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="right_front_lin_link"/>
+    <child link="right_front_rev_link"/>
+    <dynamics damping="0.7" friction="1"/>
+  </joint>
+  
+  <link name="right_front_rev_link">
+    <visual>
+      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0865" length="0.05234"/>
+      </geometry>
+      <material name="orange"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0865" length="0.05234"/>
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="1.01100"/>
+      <inertia ixx="5844491.97e-9" ixy="-376.28e-9" ixz="-3671.08e-9" iyy="5842839.83e-9" iyz="-796.72e-9" izz="3646247.90e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="right_front_rev_link">
+    <material>Gazebo/Orange</material>
+    <mu1 value="3"/>
+    <mu2 value="3"/>
+    <slip1 value="1"/>
+    <slip2 value="1"/>
+    <kp>1000000.0</kp>
+    <kd>1.0</kd>
+  </gazebo>
+
+
+
+<!-- _____________ 3. CENTER DIFF LINK____________-->
+  <joint name="center_diff" type="fixed">
+    <origin xyz="0.0 0.05 0" rpy="1.57079632679 0 0"/> <!-- Adjusted orientation -->
+    <axis xyz="0 0 1"/>  <!-- Rotates along X-axis -->
+    <parent link="diff_link"/>
+    <child link="center_diff_link"/>
+  </joint>
+
+  <link name="center_diff_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.007" length="0.05"/> 
+      </geometry>
+      <material name="black"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.007" length="0.05"/> 
+      </geometry>
+      <material name="mesh_color"/>
+    </collision>
+    <inertial>
+      <mass value="2.0"/>
+      <inertia ixx="5000000e-9" ixy="0" ixz="0" iyy="5000000e-9" iyz="0" izz="5000000e-9"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="center_diff_link">
+    <material>Gazebo/Black</material>
+    <mu1 value="1"/>
+    <mu2 value="1"/>
+  </gazebo>
+
+
+  <!--   Differential gear -->
+
+
+
+</robot>

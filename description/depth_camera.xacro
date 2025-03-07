@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Camera Joint -->
+    <joint name="camera_joint" type="fixed">
+        <parent link="chassis_link"/>
+        <child link="camera_link"/>
+        <origin xyz="-0.05 0.26 -0.1" rpy="-1.570796 0 0"/> 
+    </joint>
+    
+    <!-- Camera Link -->
+    <link name="camera_link">
+        <visual>
+            <geometry>
+                <mesh filename="file:$(find kridtbot)/meshes/oak-d.STL" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <mesh filename="file:$(find kridtbot)/meshes/oak-d.STL" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Camera Optical link -->
+    <joint name="camera_optical_joint" type="fixed">
+        <parent link="camera_link"/>
+        <child link="camera_optical_link"/>
+        <origin xyz="0 0 0" rpy="0 -1.57 -1.57"/>    
+    </joint>
+
+    <link name="camera_optical_link">
+    </link>
+
+    <!-- Gazebo Sensor Definition -->
+    <gazebo reference="camera_link">
+        <material>Gazebo/Black</material>
+
+        <sensor name="camera" type="depth">
+            <always_on>true</always_on>
+            <visualize>true</visualize>
+            <pose> 0 0 0 0 -1.57 -1.57</pose>
+            <update_rate>30</update_rate>  <!-- fps-->
+            <camera>
+                <camera_info_topic>camera/camera_info</camera_info_topic>
+                <horizontal_fov>1.43</horizontal_fov> <!--oak-d depth fov -->
+                <image>
+                    <format>R8G8B8</format> <!--Not used since depth -->
+                    <width>1280</width> <!--oak-d -->
+                    <height>800</height>   <!--oadk-d -->
+                </image>
+                <clip>
+                    <near>0.7</near> 
+                    <far>12</far>  <!--oak-d ideal depth rangee-->
+                </clip>
+            </camera>
+            <topic>camera/image_raw</topic>
+            <gz_frame_id>camera_optical_link</gz_frame_id>
+        </sensor>
+    </gazebo>
+    
+</robot>
+
