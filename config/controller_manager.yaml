@@ -1,0 +1,122 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 30
+    use_sim_time: false
+
+    diff_cont:
+      type: diff_drive_controller/DiffDriveController
+    
+    one_wheel_trajectory:
+      type: "joint_trajectory_controller/JointTrajectoryController"
+        
+    lin_trajectory:
+      type: "joint_trajectory_controller/JointTrajectoryController"
+
+    linear_position_control:
+      type: position_controllers/JointGroupPositionController
+    
+    linear_position_control_joy:
+      type: position_controllers/JointGroupPositionController
+    
+    linear_velocity_controller:
+      type: velocity_controllers/JointGroupVelocityController
+    
+    joint_broad:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+    imu_sensor_broadcaster:
+       type: imu_sensor_broadcaster/IMUSensorBroadcaster
+
+linear_position_control:
+  ros__parameters:
+    joints:
+      - right_front_linear
+      - left_rear_linear
+      - left_front_linear
+      - right_rear_linear
+
+linear_position_control_joy:
+  ros__parameters:
+    joints:
+      - right_front_linear
+      - left_rear_linear
+      - left_front_linear
+      - right_rear_linear
+
+
+linear_velocity_controller:
+  ros__parameters:
+    joints:
+      - right_front_linear
+      - left_rear_linear
+      - left_front_linear
+      - right_rear_linear
+
+one_wheel_trajectory:
+  ros__parameters:
+    joints:
+      - left_rear_wheel
+      - left_front_wheel
+      - right_front_wheel
+      - right_rear_wheel
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
+
+    allow_partial_joints_goal: false
+    open_loop_control: true
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0
+
+lin_trajectory:
+  ros__parameters:
+    joints:
+      - left_rear_linear
+      - right_front_linear
+      - right_rear_linear
+      - left_front_linear
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+      - effort
+
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
+
+    allow_partial_joints_goal: false
+    open_loop_control: true
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0
+
+diff_cont:
+  ros__parameters:
+    left_wheel_names: ["left_front_wheel", "left_rear_wheel"]
+    right_wheel_names: ["right_front_wheel", "right_rear_wheel"] # rear and front are swapped
+
+    wheel_separation: .6832 # correct separation gives weird behavior
+    wheel_radius: 0.09
+    wheels_per_side: 2
+    left_wheel_radius_multiplier: 1.0
+    right_wheel_radius_multiplier: -1.0
+
+    publish_rate: 50.0
+    #use_samped_vel: false
+
+
+imu_sensor_broadcaster:
+  ros__parameters:
+    sensor_name: "imu"
+    frame_id:  "imu_link"
