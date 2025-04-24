@@ -148,13 +148,35 @@ def generate_launch_description():
     lin_vel_control_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["linear_velocity_controller","--inactive"],
+        arguments=["linear_velocity_controller"],
+        
     )
 
     delayed_lin_vel_control_spwaner = RegisterEventHandler(
         event_handler=OnProcessStart(
             target_action=controller_manager,
             on_start=[lin_vel_control_spawner]
+        ), condition=UnlessCondition(use_sim_config)
+    )
+
+    # Automatic suspension control
+    suspension_control_spawner_gz = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["suspension_controller"],
+        condition=IfCondition(use_sim_config)
+    )
+
+    suspension_control_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["suspension_controller","--active"],
+    )
+
+    delayed_suspension_control_spwaner = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=controller_manager,
+            on_start=[suspension_control_spawner]
         ), condition=UnlessCondition(use_sim_config)
     )
 
@@ -201,11 +223,24 @@ def generate_launch_description():
     # compressed imager
     compressed_image = Node(   # see by choose /out/compressed in ros2 run rqt_image_view rqt_image_view
             package="image_transport",
-            executable="republish",
+            executable="repsuspension_controllerublish",
             arguments=["raw", "in:=/camera/image_raw", "compressed", "out:=/camera/image_raw/compressed"],
             output="screen",
         )
 
+    # Foxglove WebSocket port
+    port_arg = DeclareLaunchArgument(
+        'port',
+        default_value='8765',
+        description='Port number for Foxglove Bridge'
+    )
+    foxglove_bridge = Node(
+        package='foxglove_bridge',
+        executable='foxglove_bridge',
+        name='foxglove_bridge',
+        parameters=[{"port": LaunchConfiguration('port')}],
+        output='screen'
+    )
     
     # Launch all
     return LaunchDescription([
@@ -214,10 +249,11 @@ def generate_launch_description():
         gz_spawner,
         joystick,
         twist_stamper,
-        lin_control_spawner_gz,
+        #lin_control_spawner_gz,
         imu_broad_spawner_gz,
         joint_broad_spawner_gz,
         diff_drive_spawner_gz,
+        #suspension_control_spawner_gz,
         delayed_controller_manager,
         delayed_imu_broad_spawner,
         delayed_lin_control_joy_spawner,    
@@ -225,7 +261,9 @@ def generate_launch_description():
         delayed_lin_vel_control_spwaner,    #Only for physical system (calibration)
         delayed_joint_broad_spawner,
         delayed_diff_drive_spawner,
-        
+        #delayed_suspension_control_spwaner,
+        #port_arg,
+        #foxglove_bridge
         #compressed_image
         #diff_drive_spawner,
         #joint_broad_spawner

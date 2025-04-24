@@ -27,6 +27,10 @@ controller_manager:
     imu_sensor_broadcaster:
        type: imu_sensor_broadcaster/IMUSensorBroadcaster
 
+    suspension_controller:
+      type: suspension_controller/SuspensionController
+
+
 linear_position_control:
   ros__parameters:
     joints:
@@ -120,3 +124,29 @@ imu_sensor_broadcaster:
   ros__parameters:
     sensor_name: "imu"
     frame_id:  "imu_link"
+
+
+
+suspension_controller:
+  ros__parameters:
+    control_mode: "PID_Base"
+
+    reference_pose: [0.0, 0.0, -0.377]  # [theta, roll, z]
+    K_P: [1.0, 1.0, 0.0]
+    K_I: [0.0, 0.0, 0.0]
+    K_D: [0.0, 0.0, 0.0]
+
+    #joints:
+    #  - left_front_linear
+    #  - left_rear_linear
+    #  - right_front_linear
+    #  - right_rear_linear
+
+    #command_interfaces:
+    #  - position
+
+    #state_interfaces:
+    #  - position
+    #  - velocity
+    #  - effort
+    # Add joints as parameter!
