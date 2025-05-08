@@ -129,12 +129,18 @@ imu_sensor_broadcaster:
 
 suspension_controller:
   ros__parameters:
-    control_mode: "PID_Base"
+    control_mode: "PID_w_Terrain"
 
-    reference_pose: [0.0, 0.0, -0.377]  # [theta, roll, z]
-    K_P: [1.0, 1.0, 0.0]
-    K_I: [0.0, 0.0, 0.0]
-    K_D: [0.0, 0.0, 0.0]
+    reference_pose: [0.0, 0.0, -0.377, 0.0]  # [theta, roll, z]
+    K_P: [1.0, 1.0, 0.1, 0.0]
+    K_I: [0.0, 0.0, 0.0, 0.0]
+    K_D: [0.0, 0.0, 0.0, 0.0]
+
+    #Q_(0,0) = 10.0;   // theta error penalty
+    #Q_(1,1) = 10.0;   // roll error penalty
+    #Q_(2,2) = 0.1;    // z error penalty
+
+    #R_ = 0.1 * Eigen::Matrix4d::Identity();  // actuator penalty
 
     #joints:
     #  - left_front_linear

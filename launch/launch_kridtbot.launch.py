@@ -262,8 +262,8 @@ def generate_launch_description():
         delayed_joint_broad_spawner,
         delayed_diff_drive_spawner,
         #delayed_suspension_control_spwaner,
-        #port_arg,
-        #foxglove_bridge
+        port_arg,
+        foxglove_bridge
         #compressed_image
         #diff_drive_spawner,
         #joint_broad_spawner
