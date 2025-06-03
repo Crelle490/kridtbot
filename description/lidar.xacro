@@ -79,7 +79,7 @@
             <lidar>
                 <scan>
                     <horizontal>
-                        <samples>360</samples>
+                        <samples>720</samples>
                         <resolution>1</resolution>
                         <min_angle>0</min_angle>
                         <max_angle>6.283185</max_angle> <!-- 360 deg -->
@@ -93,13 +93,13 @@
                 </scan>
                 <range>
                     <min>0.1</min>
-                    <max>200.0</max>
+                    <max>70.0</max>
                     <resolution>0.002</resolution>
                 </range>
                 <noise>
                     <type>gaussian</type>
                     <mean>0.0</mean>
-                    <stddev>0.01</stddev>
+                    <stddev>0.0001</stddev>
                 </noise>
             </lidar>
             <topic>lidar/points</topic>

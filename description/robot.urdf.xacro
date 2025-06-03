@@ -1,11 +1,22 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot" xmlns:gz="http://gazebosim.org/schema">
 
     <!-- Arguments -->
     <xacro:arg name="use_sim_system" default="false"/>
+    <xacro:arg name="use_skid" default="true"/>
+
 
     <!-- URDF Robot Description-->
     <xacro:include filename="robot_core.xacro" />
+    
+    <!-- wheels -->
+    <xacro:if value="$(arg use_skid)">
+        <xacro:include filename="wheels_skid.xacro" />
+    </xacro:if>
+    <xacro:unless value="$(arg use_skid)">
+        <xacro:include filename="wheels_mec.xacro" />
+    </xacro:unless>
+
     
     <!-- Sensors -->
     <xacro:include filename="lidar.xacro" />

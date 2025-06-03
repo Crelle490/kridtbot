@@ -58,7 +58,7 @@
             <command_interface name="effort"/>
             <state_interface name="position"/>
             <state_interface name="velocity"/>
-            <state_interface name="effort"/>
+            <statelocalization_interface name="effort"/>
         </joint>
 
         <joint name="left_front_linear">

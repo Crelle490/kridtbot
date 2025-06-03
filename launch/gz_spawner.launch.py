@@ -19,9 +19,10 @@ def generate_launch_description():
     default_world = os.path.join(
         get_package_share_directory(package_name),
         'worlds',
-        'moon.world'
+        'empty.world'
         )    
-    
+    #default_world = os.path.join(
+    #    os.environ["HOME"], ".ros", "virtual_maize_field", "generated.world")    
     world = LaunchConfiguration('world')
 
     world_arg = DeclareLaunchArgument(
@@ -30,7 +31,7 @@ def generate_launch_description():
         description='World to load'
         )
     
-    # Include the Gazebo launch file, provided by the ros_gz_sim package
+       # Include the Gazebo launch file, provided by the ros_gz_sim package
     params = os.path.join(get_package_share_directory(package_name), 'config', 'gz_params.yaml')
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
@@ -42,7 +43,7 @@ def generate_launch_description():
     spawn_entity = Node(package='ros_gz_sim', executable='create',
                         arguments=['-topic', 'robot_description',
                         '-name', 'my_bot',
-                        '-x', '0', '-y', '5', '-z', '2.45',
+                        '-x', '0', '-y', '5', '-z', '2.43', #-x', '0', '-y', '5', '-z', '2.45',
                         '-R', '0.0', '-P', '0.0', '-Y', '0.0'],
                         output='screen')
     

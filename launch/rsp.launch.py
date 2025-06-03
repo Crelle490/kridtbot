@@ -14,12 +14,13 @@ def generate_launch_description():
 
     # sim time argument
     use_sim = LaunchConfiguration('use_sim')
+    use_skid = LaunchConfiguration('use_skid')
     
     # Process URDF 
     pkg_path = os.path.join(get_package_share_directory('kridtbot'))
     xacro_file = os.path.join(pkg_path,'description','robot.urdf.xacro') # main xacro
     # robot_description_config = xacro.process_file(xacro_file).toxml()
-    robot_description_config = Command(['xacro ', xacro_file, ' use_sim_system:=', use_sim, ' sim_mode:=', use_sim])
+    robot_description_config = Command(['xacro ', xacro_file, ' use_sim_system:=', use_sim, ' use_skid:=', use_skid])
     
     # robot_state_publisher node on topic "robot_description"
     params_robot_state_publisher = {'robot_description': robot_description_config, 'use_sim_time': use_sim}
@@ -53,6 +54,10 @@ def generate_launch_description():
             'use_sim',
             default_value='false',
             description='uses ros2_control if true'),
+        DeclareLaunchArgument(
+            'use_skid',
+            default_value='false',
+            description='uses skid if true'),
         node_robot_state_publisher,
         rviz2_node,
     ])

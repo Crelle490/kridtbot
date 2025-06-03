@@ -108,16 +108,17 @@
         </link>
       </model>
       <light name='sun'>
-        <pose>0 0 10 0 -0 0</pose>
+        <pose>0 0 1 0 -0 1.57</pose>
       </light>
     </state>
 
-    <gui fullscreen='0'>
-      <camera name='user_camera'>
-        <pose>7.59839 6.09551 3.11571 0 0.087643 -0.503811</pose>
-        <view_controller>orbit</view_controller>
-        <projection_type>perspective</projection_type>
-      </camera>
-    </gui>
+<gui fullscreen='0'>
+  <camera name='user_camera'>
+    <pose>7.59839 6.09551 3.11571 0 0 1.5708</pose> <!-- Turn 90° left -->
+    <view_controller>user</view_controller>
+    <projection_type>perspective</projection_type>
+  </camera>
+</gui>
+
   </world>
 </sdf>

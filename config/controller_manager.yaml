@@ -7,7 +7,7 @@ controller_manager:
       type: diff_drive_controller/DiffDriveController
     
     one_wheel_trajectory:
-      type: "joint_trajectory_controller/JointTrajectoryController"
+      type: "velocity_controllers/JointGroupVelocityController"
         
     lin_trajectory:
       type: "joint_trajectory_controller/JointTrajectoryController"
@@ -29,6 +29,9 @@ controller_manager:
 
     suspension_controller:
       type: suspension_controller/SuspensionController
+
+    mecanum_drive_controller:
+      type: mecanum_drive_controller/MecanumDriveController
 
 
 linear_position_control:
@@ -65,7 +68,8 @@ one_wheel_trajectory:
       - right_rear_wheel
 
     command_interfaces:
-      - position
+      - velocity
+
 
     state_interfaces:
       - position
@@ -105,6 +109,7 @@ lin_trajectory:
       stopped_velocity_tolerance: 0.01
       goal_time: 0.0
 
+
 diff_cont:
   ros__parameters:
     left_wheel_names: ["left_front_wheel", "left_rear_wheel"]
@@ -114,10 +119,44 @@ diff_cont:
     wheel_radius: 0.09
     wheels_per_side: 2
     left_wheel_radius_multiplier: 1.0
-    right_wheel_radius_multiplier: -1.0
+    #right_wheel_radius_multiplier: -1.0
+    publish_odom: true
+    enable_odom_tf: false
+
+    pose_covariance_diagonal: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+    twist_covariance_diagonal: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
 
     publish_rate: 50.0
     #use_samped_vel: false
+
+
+
+mecanum_drive_controller:
+
+  # Change friction somehow
+  # Change wheel radius
+  # Fix odom
+  # Fix wheel separation
+
+  ros__parameters:
+    reference_timeout: 0.9
+
+    front_left_wheel_command_joint_name: "left_front_wheel"
+    front_right_wheel_command_joint_name: "right_front_wheel"
+    rear_right_wheel_command_joint_name: "right_rear_wheel"
+    rear_left_wheel_command_joint_name: "left_rear_wheel"
+
+    wheel_separation_lr: 0.6832
+    wheel_separation_fb: 0.6832
+
+    kinematics:
+      base_frame_offset: { x: 0.0, y: 0.00, theta: 0.0 }
+      wheels_radius: 0.09
+      sum_of_robot_center_projection_on_X_Y_axis: 0.5745       #sum_of_robot_center_projection_on_X_Y_axis = lx+ly: # (H/2+T/2) = (0.428/2 + 0.721/2)
+
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+
 
 
 imu_sensor_broadcaster:
@@ -129,7 +168,7 @@ imu_sensor_broadcaster:
 
 suspension_controller:
   ros__parameters:
-    control_mode: "PID_w_Terrain"
+    control_mode: "PID_Base"
 
     reference_pose: [0.0, 0.0, -0.377, 0.0]  # [theta, roll, z]
     K_P: [1.0, 1.0, 0.1, 0.0]
