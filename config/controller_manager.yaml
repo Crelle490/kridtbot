@@ -5,13 +5,7 @@ controller_manager:
 
     diff_cont:
       type: diff_drive_controller/DiffDriveController
-    
-    one_wheel_trajectory:
-      type: "velocity_controllers/JointGroupVelocityController"
-        
-    lin_trajectory:
-      type: "joint_trajectory_controller/JointTrajectoryController"
-
+  
     linear_position_control:
       type: position_controllers/JointGroupPositionController
     
@@ -34,7 +28,7 @@ controller_manager:
       type: mecanum_drive_controller/MecanumDriveController
 
 
-linear_position_control:
+linear_position_control: # suspension position control (calibration)
   ros__parameters:
     joints:
       - right_front_linear
@@ -42,7 +36,7 @@ linear_position_control:
       - left_front_linear
       - right_rear_linear
 
-linear_position_control_joy:
+linear_position_control_joy: # suspension position control (manual control over joystick)
   ros__parameters:
     joints:
       - right_front_linear
@@ -51,7 +45,7 @@ linear_position_control_joy:
       - right_rear_linear
 
 
-linear_velocity_controller:
+linear_velocity_controller: # suspension velocity control (calibration)
   ros__parameters:
     joints:
       - right_front_linear
@@ -59,63 +53,14 @@ linear_velocity_controller:
       - left_front_linear
       - right_rear_linear
 
-one_wheel_trajectory:
-  ros__parameters:
-    joints:
-      - left_rear_wheel
-      - left_front_wheel
-      - right_front_wheel
-      - right_rear_wheel
-
-    command_interfaces:
-      - velocity
 
 
-    state_interfaces:
-      - position
-      - velocity
-
-    state_publish_rate: 50.0
-    action_monitor_rate: 20.0
-
-    allow_partial_joints_goal: false
-    open_loop_control: true
-    constraints:
-      stopped_velocity_tolerance: 0.01
-      goal_time: 0.0
-
-lin_trajectory:
-  ros__parameters:
-    joints:
-      - left_rear_linear
-      - right_front_linear
-      - right_rear_linear
-      - left_front_linear
-
-    command_interfaces:
-      - position
-
-    state_interfaces:
-      - position
-      - velocity
-      - effort
-
-    state_publish_rate: 50.0
-    action_monitor_rate: 20.0
-
-    allow_partial_joints_goal: false
-    open_loop_control: true
-    constraints:
-      stopped_velocity_tolerance: 0.01
-      goal_time: 0.0
-
-
-diff_cont:
+diff_cont: # differential drive controller
   ros__parameters:
     left_wheel_names: ["left_front_wheel", "left_rear_wheel"]
-    right_wheel_names: ["right_front_wheel", "right_rear_wheel"] # rear and front are swapped
+    right_wheel_names: ["right_front_wheel", "right_rear_wheel"]
 
-    wheel_separation: .6832 # correct separation gives weird behavior
+    wheel_separation: .6832 
     wheel_radius: 0.09
     wheels_per_side: 2
     left_wheel_radius_multiplier: 1.0
@@ -127,16 +72,10 @@ diff_cont:
     twist_covariance_diagonal: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
 
     publish_rate: 50.0
-    #use_samped_vel: false
 
 
 
-mecanum_drive_controller:
-
-  # Change friction somehow
-  # Change wheel radius
-  # Fix odom
-  # Fix wheel separation
+mecanum_drive_controller: # mecanum drive controller
 
   ros__parameters:
     reference_timeout: 0.9
@@ -159,14 +98,14 @@ mecanum_drive_controller:
 
 
 
-imu_sensor_broadcaster:
+imu_sensor_broadcaster: # IMU Sensor Broadcaster
   ros__parameters:
     sensor_name: "imu"
     frame_id:  "imu_link"
 
 
 
-suspension_controller:
+suspension_controller: # Custom suspension controller
   ros__parameters:
     control_mode: "PID_Base"
 

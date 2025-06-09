@@ -24,7 +24,7 @@ def generate_launch_description():
     )
 
     linear_pos = TimerAction(
-        period=2.0,  # Wait 2 seconds before starting
+        period=2.0, 
         actions=[Node(
             package='kridtbot',
             executable='linear_position_pub',

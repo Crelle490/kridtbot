@@ -19,7 +19,6 @@ def generate_launch_description():
     # Process URDF 
     pkg_path = os.path.join(get_package_share_directory('kridtbot'))
     xacro_file = os.path.join(pkg_path,'description','robot.urdf.xacro') # main xacro
-    # robot_description_config = xacro.process_file(xacro_file).toxml()
     robot_description_config = Command(['xacro ', xacro_file, ' use_sim_system:=', use_sim, ' use_skid:=', use_skid])
     
     # robot_state_publisher node on topic "robot_description"

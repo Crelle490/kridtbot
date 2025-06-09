@@ -26,6 +26,7 @@ def generate_launch_description():
     
     # Declare use_sim argument
     use_sim_config = LaunchConfiguration('use_sim')
+    use_mec_or_diff = 'diff' # 'choose between 'mec' or 'diff' for mecanum or differential drive
     
     #### Launch 1: Launch the robot state publisher
     rsp = IncludeLaunchDescription(
@@ -233,6 +234,13 @@ def generate_launch_description():
     ]
     )
 
+    # launch sensors
+    sensors_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_directory(package_name),'launch','sensors.launch.py'
+        )]), condition=UnlessCondition(use_sim_config)
+    )
+
     # compressed imager
     compressed_image = Node(   # see by choose /out/compressed in ros2 run rqt_image_view rqt_image_view
             package="image_transport",
@@ -280,15 +288,14 @@ def generate_launch_description():
         gz_spawner,
         joystick,
         twist_stamper,
-        #lin_control_spawner_gz,
         imu_broad_spawner_gz,
         joint_broad_spawner_gz,
         diff_drive_spawner_gz,
-        #mecanum_drive_spawner_gz,
+        #mecanum_drive_spawner_gz, # use diff or mec 
         suspension_control_spawner_gz,
         delayed_controller_manager,
         delayed_imu_broad_spawner,
-        #delayed_lin_control_joy_spawner,    
+        #delayed_lin_control_joy_spawner,    # use delayed spawners for real robot
         #delayed_lin_pos_control_spwaner,    #Only for physical system (calibration)
         #delayed_lin_vel_control_spwaner,    #Only for physical system (calibration)
         delayed_joint_broad_spawner,
@@ -299,9 +306,8 @@ def generate_launch_description():
         foxglove_bridge,
         imu_cov_node,
         ukf_launch,
+        sensors_launch,
         #compressed_image
-        #diff_drive_spawner,
-        #joint_broad_spawner
         DeclareLaunchArgument(
             'use_sim',
             default_value='false',

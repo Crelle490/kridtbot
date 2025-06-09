@@ -18,13 +18,14 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     kridtbot_path = get_package_share_directory("kridtbot")
 
-    #set_ip = ExecuteProcess( # set ethernet channel to LIDAR ip
-    #    cmd=['sudo', 'ifconfig', 'enp1s0', '192.168.1.50'],
-    #    output='screen'
-    #)
-    #lidar_launch = IncludeLaunchDescription(
-    #    os.path.join(get_package_share_directory("livox_ros_driver2"), "launch", "msg_MID360_launch.py"),
-    #)
+    set_ip = ExecuteProcess( # set ethernet channel to LIDAR ip
+        cmd=['sudo', 'ifconfig', 'enp1s0', '192.168.1.50'],
+        output='screen'
+    )
+    
+    lidar_launch = IncludeLaunchDescription(
+        os.path.join(get_package_share_directory("livox_ros_driver2"), "launch", "msg_MID360_launch.py"),
+    )
 
     point_to_scan = IncludeLaunchDescription(
         os.path.join(get_package_share_directory("kridtbot"), "launch", "pointcloud_to_scan.launch.py"),
@@ -34,17 +35,7 @@ def generate_launch_description():
         os.path.join(get_package_share_directory("slam_toolbox"), "launch", "online_async_launch.py"),
         launch_arguments={
             "params_file": PathJoinSubstitution(
-                [get_package_share_directory("kridtbot"), "config", "mapper_params_online_async.yaml"]
-            ),
-        }.items()
-    )
-
-    nav2_bring_up = IncludeLaunchDescription(
-        os.path.join(get_package_share_directory("nav2_bringup"), "launch", "navigation_launch.py"),
-        launch_arguments={
-            "use_sim_time": "True",
-            "params_file": PathJoinSubstitution(
-                [get_package_share_directory("kridtbot"), "config", "nav2_params.yaml"]
+                [get_package_share_directory("kridtbot"), "config", "mapper_params.yaml"]
             ),
         }.items()
     )
@@ -56,7 +47,6 @@ def generate_launch_description():
             #lidar_launch,
             point_to_scan,
             slam_toolbox,
-            #nav2_bring_up,
         ]
     )
 

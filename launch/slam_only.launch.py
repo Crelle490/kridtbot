@@ -22,7 +22,7 @@ def generate_launch_description():
         os.path.join(get_package_share_directory("slam_toolbox"), "launch", "online_async_launch.py"),
         launch_arguments={
             "params_file": PathJoinSubstitution(
-                [get_package_share_directory("kridtbot"), "config", "mapper_params_online_async.yaml"]
+                [get_package_share_directory("kridtbot"), "config", "mapper_params.yaml"]
             ),
         }.items()
     )
@@ -32,6 +32,5 @@ def generate_launch_description():
     return LaunchDescription(
         [
             slam_toolbox,
-            #nav2_bring_up,
         ]
     )
