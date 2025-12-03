@@ -42,14 +42,14 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/nichlas-kondrup/ros_ws_new/src/kridtbot/worlds/mars_topografi.dae</uri>
+              <uri>../worlds/mars_topografi.dae</uri>
             </mesh>
           </geometry>
         </visual>
         <collision name='collision1'>
           <geometry>
             <mesh>
-              <uri>/home/nichlas-kondrup/ros_ws_new/src/kridtbot/worlds/mars_topografi.dae</uri>
+              <uri>../worlds/mars_topografi.dae</uri>
             </mesh>
           </geometry>
           <max_contacts>10</max_contacts>
