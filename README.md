@@ -1,4 +1,4 @@
-# kridtbot
+# KRIDTBOT
 kridtbot is a ROS 2 (ament_cmake) package that bundles the launch files, configurations, and custom nodes used to simulate and drive the Kridtbot mobile platform. It provides Gazebo integration, ros2_control wiring, joystick helpers, and example autonomy utilities so the same package can be used in simulation or on hardware.
 
 ## Package layout
@@ -31,6 +31,15 @@ kridtbot is a ROS 2 (ament_cmake) package that bundles the launch files, configu
    colcon build --packages-select kridtbot
    ```
 3. Source the overlay (e.g., `source install/setup.bash`).
+
+### External drivers and related packages
+Kridtbot integrates with several external ROS packages and drivers for hardware and sensing support. Clone and build these alongside this package when bringing up a full system:
+- https://github.com/2b-t/myactuator_rmd_ros
+- https://github.com/dheera/ros-imu-bno055
+- https://github.com/bob-ros2/voskros
+- https://github.com/ros-perception/pointcloud_to_laserscan
+- https://github.com/odriverobotics/ros_odrive
+- https://github.com/Livox-SDK/livox_ros_driver2
 
 ## Running examples
 - **Simulation with controllers** (Gazebo):
@@ -66,4 +75,3 @@ kridtbot is a ROS 2 (ament_cmake) package that bundles the launch files, configu
 
 ## License
 See [LICENSE.md](LICENSE.md) for licensing details.
-
