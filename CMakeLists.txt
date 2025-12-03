@@ -20,6 +20,9 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(trajectory_msgs REQUIRED)
+find_package(controller_manager_msgs REQUIRED)
+
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find dependencies
@@ -29,9 +32,13 @@ include_directories(
   ${rclcpp_INCLUDE_DIRS}
   ${sensor_msgs_INCLUDE_DIRS}
   ${std_msgs_INCLUDE_DIRS}
+  ${trajectory_msgs_INCLUDE_DIRS}
 )
 
 add_executable(linear_position_pub nodes/linear_position_pub.cpp)
+add_executable(FKtest nodes/FKtest.cpp)
+add_executable(switch_controller nodes/SwitchController.cpp)
+
 
 ament_target_dependencies(linear_position_pub
   rclcpp
@@ -39,9 +46,22 @@ ament_target_dependencies(linear_position_pub
   std_msgs
 )
 
-install(TARGETS linear_position_pub
+ament_target_dependencies(FKtest rclcpp std_msgs)
+
+ament_target_dependencies(switch_controller
+  rclcpp
+  sensor_msgs
+  std_msgs
+  controller_manager_msgs
+)
+
+install(TARGETS 
+  linear_position_pub 
+  FKtest
+  switch_controller
   DESTINATION lib/${PROJECT_NAME}
 )
+
 
 
 if(BUILD_TESTING)

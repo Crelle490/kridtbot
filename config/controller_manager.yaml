@@ -1,13 +1,13 @@
 controller_manager:
   ros__parameters:
-    update_rate: 30
+    update_rate: 80
     use_sim_time: false
 
     diff_cont:
       type: diff_drive_controller/DiffDriveController
     
     one_wheel_trajectory:
-      type: "joint_trajectory_controller/JointTrajectoryController"
+      type: "velocity_controllers/JointGroupVelocityController"
         
     lin_trajectory:
       type: "joint_trajectory_controller/JointTrajectoryController"
@@ -24,44 +24,48 @@ controller_manager:
     joint_broad:
       type: joint_state_broadcaster/JointStateBroadcaster
     
-    imu_sensor_broadcaster:
-       type: imu_sensor_broadcaster/IMUSensorBroadcaster
+    mecanum_drive_controller:
+      type: mecanum_drive_controller/MecanumDriveController
+    
+    suspension_controller:
+      type: suspension_controller/SuspensionController
 
 linear_position_control:
   ros__parameters:
     joints:
-      - right_front_linear
-      - left_rear_linear
       - left_front_linear
+      - left_rear_linear
+      - right_front_linear
       - right_rear_linear
 
 linear_position_control_joy:
   ros__parameters:
     joints:
-      - right_front_linear
-      - left_rear_linear
       - left_front_linear
+      - left_rear_linear
+      - right_front_linear
       - right_rear_linear
 
 
 linear_velocity_controller:
   ros__parameters:
     joints:
-      - right_front_linear
-      - left_rear_linear
       - left_front_linear
+      - left_rear_linear
+      - right_front_linear
       - right_rear_linear
+
 
 one_wheel_trajectory:
   ros__parameters:
     joints:
-      - left_rear_wheel
       - left_front_wheel
+      - left_rear_wheel
       - right_front_wheel
       - right_rear_wheel
 
     command_interfaces:
-      - position
+      - velocity
 
     state_interfaces:
       - position
@@ -103,20 +107,69 @@ lin_trajectory:
 
 diff_cont:
   ros__parameters:
-    left_wheel_names: ["left_front_wheel", "left_rear_wheel"]
-    right_wheel_names: ["right_front_wheel", "right_rear_wheel"] # rear and front are swapped
+    left_wheel_names: [ "left_front_wheel","left_rear_wheel"]
+    right_wheel_names: [ "right_front_wheel","right_rear_wheel"] # rear and front are swapped
+    base_frame_id: base_link
+
+    pose_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.99]
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.99]
 
     wheel_separation: .6832 # correct separation gives weird behavior
     wheel_radius: 0.09
     wheels_per_side: 2
     left_wheel_radius_multiplier: 1.0
-    right_wheel_radius_multiplier: -1.0
-
+    right_wheel_radius_multiplier: 1.0
+    enable_odom_tf: false
+    publish_odom: true
+    odom_frame_id: odom
     publish_rate: 50.0
-    #use_samped_vel: false
 
 
-imu_sensor_broadcaster:
+mecanum_drive_controller:
   ros__parameters:
-    sensor_name: "imu"
-    frame_id:  "imu_link"
+    reference_timeout: 0.9
+
+    front_left_wheel_command_joint_name: "left_front_wheel"
+    front_right_wheel_command_joint_name: "right_front_wheel"
+    rear_right_wheel_command_joint_name: "right_rear_wheel"
+    rear_left_wheel_command_joint_name: "left_rear_wheel"
+
+    wheel_separation_lr: 0.6832
+    wheel_separation_fb: 0.6832
+
+    #front_left_wheel_multiplier: 1.0
+    #front_right_wheel_multiplier: -1.0
+    #rear_left_wheel_multiplier: 1.0
+    #rear_right_wheel_multiplier: -1.0
+
+    kinematics:
+      base_frame_offset: { x: 0.0, y: 0.0, theta: 0.0 }
+      wheels_radius: 0.1125
+      #sum_of_robot_center_projection_on_X_Y_axis = lx+ly: # (H/2+T/2) = (0.428/2 + 0.721/2)
+      sum_of_robot_center_projection_on_X_Y_axis: 0.5745
+
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+    publish_odom: true
+    enable_odom_tf: false
+    publish_rate: 50.0
+
+suspension_controller:
+  ros__parameters:
+    control_mode: "PID_Base"
+
+    reference_pose: [0.0, 0.0, -0.377,0.0]  # [theta, roll, z]
+    K_P: [0.1755, 0.9, 0.4,0.0]
+    K_I: [0.9, 5.218, 0.0,0.0]
+    K_D: [0.0, 0.0388, 0.0,0.0]
+    Q: [0.1, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.8] #[pitch, roll,z]
+    R: 1.0
+
+    #K_P: [0.1755, 0.0, 0.0,0.0]
+    #K_I: [0.3707, 0.0, 0.0,0.0]
+    #K_D: [0.0, 0.0, 0.0,0.0]
+
+    # Initial tune
+    #K_P: [0.405, 0.9, 0.4,0.0]
+    #K_I: [1.1854, 5.218, 0.0,0.0]
+    #K_D: [0.0, 0.0388, 0.0,0.0]

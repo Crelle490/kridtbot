@@ -40,14 +40,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/base_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/base_link.STL"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/base_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/base_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -74,14 +74,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/diff_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/diff_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -121,14 +121,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/left_diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/left_diff_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/left_diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/left_diff_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -146,7 +146,7 @@
 
   <!-- _____________LEFT REAR LINEAR ACtuator____________-->  
 
-  <joint name="left_rear_linear" type="prismatic">
+  <joint name="left_rear_linear" type="fixed">
     <limit effort="1000.0" lower="0" upper="0.13" velocity="0.5"/>
     <origin xyz="-0.216 -0.0010724 0" rpy="-1.5708 0 0.0049647"/>
     <axis xyz="0 0 1"/>
@@ -158,14 +158,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/left_rear_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/left_rear_lin_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/left_rear_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/left_rear_lin_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -218,7 +218,7 @@
   </gazebo>
 
   <!-- _____________LEFT FRONT LINEAR actuator____________-->
-  <joint name="left_front_linear" type="prismatic">
+  <joint name="left_front_linear" type="fixed">
     <limit effort="1000.0" lower="0" upper="0.13" velocity="0.5"/> 
     <origin xyz="0.216 0.0010724 0" rpy="-1.5708 0 0.0049647"/>
     <axis xyz="0 0 1"/>
@@ -230,14 +230,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/front_left_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/front_left_lin_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/front_left_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/front_left_lin_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -304,14 +304,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/rigth_diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/rigth_diff_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/rigth_diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/rigth_diff_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -328,7 +328,7 @@
   </gazebo>
   
   <!-- _____________RIGHT REAR LINEAR actuator ____________-->
-  <joint name="right_rear_linear" type="prismatic">
+  <joint name="right_rear_linear" type="fixed">
     <limit effort="1000.0" lower="0" upper="0.13" velocity="0.5"/>
     <origin xyz="0.216 -0.0010724 0" rpy="-1.5708 0 0.0049647"/>
     <axis xyz="0 0 1"/>
@@ -340,14 +340,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/right_rear_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/right_rear_lin_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/right_rear_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/right_rear_lin_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -402,7 +402,7 @@
   </gazebo>
   
   <!-- _____________RIGHT FRONT LINEAR actuator ____________-->
-  <joint name="right_front_linear" type="prismatic">
+  <joint name="right_front_linear" type="fixed">
     <limit effort="1000.0" lower="0" upper="0.13" velocity="0.5"/>
     <origin xyz="-0.216 0.0010724 0" rpy="-1.5708 0 0.0049647"/>
     <axis xyz="0 0 1"/>
@@ -414,14 +414,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/right_front_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/right_front_lin_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/right_front_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/right_front_lin_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>

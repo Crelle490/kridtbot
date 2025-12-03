@@ -6,13 +6,39 @@
             <plugin>odrive_ros2_control_plugin/ODriveHardwareInterface</plugin>
             <param name="can">can0</param>
         </hardware>
+        <joint name="left_rear_linear">
+            <param name="node_id">1</param>
+            <command_interface name="position">
+                <param name="min">-0.005</param>
+                <param name="max">0.11</param>
+            </command_interface>
+            <command_interface name="velocity"/>
+            <command_interface name="effort"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
+        <joint name="left_front_linear"> 
+            <param name="node_id">0</param>
+            <command_interface name="position">
+                <param name="min">-0.005</param>
+                <param name="max">0.11</param>
+            </command_interface>
+            <command_interface name="velocity"/>
+            <command_interface name="effort"/>
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <state_interface name="effort"/>
+        </joint>
         <joint name="right_rear_linear">
             <param name="node_id">2</param>
             <command_interface name="position">
                 <param name="min">-0.005</param>
-                <param name="max">0.10</param>
+                <param name="max">0.11</param>
             </command_interface>
-            <command_interface name="velocity"/>
+            <command_interface name="velocity">
+                <param name="max">1.0</param>
+            </command_interface>
             <command_interface name="effort"/>
             <state_interface name="position"/>
             <state_interface name="velocity"/>
@@ -22,31 +48,7 @@
             <param name="node_id">3</param>
             <command_interface name="position">
                 <param name="min">-0.005</param>
-                <param name="max">0.10</param>
-            </command_interface>
-            <command_interface name="velocity"/>
-            <command_interface name="effort"/>
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-        </joint>
-        <joint name="left_rear_linear">
-            <param name="node_id">1</param>
-            <command_interface name="position">
-                <param name="min">-0.005</param>
-                <param name="max">0.10</param>
-            </command_interface>
-            <command_interface name="velocity"/>
-            <command_interface name="effort"/>
-            <state_interface name="position"/>
-            <state_interface name="velocity"/>
-            <state_interface name="effort"/>
-        </joint>
-        <joint name="left_front_linear">
-            <param name="node_id">0</param>
-            <command_interface name="position">
-                <param name="min">-0.005</param>
-                <param name="max">0.10</param>
+                <param name="max">0.11</param>
             </command_interface>
             <command_interface name="velocity"/>
             <command_interface name="effort"/>

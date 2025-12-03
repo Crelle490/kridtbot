@@ -17,9 +17,8 @@
         <xacro:include filename="ros2_control_gz.xacro" />
     </xacro:if>
     <xacro:unless value="$(arg use_sim_system)">
-        <xacro:include filename="ros2_control_myactuator.xacro" />
-        <xacro:include filename="ros2_control_odrive.xacro" />
-        <xacro:include filename="ros2_control_imu.xacro" />
+        <xacro:include filename="ros2_control_myactuator.xacro"/>
+        <!--  <xacro:include filename="ros2_control_odrive.xacro" />-->
     </xacro:unless>
 
 </robot> 

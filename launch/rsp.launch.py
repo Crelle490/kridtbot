@@ -17,7 +17,9 @@ def generate_launch_description():
     
     # Process URDF 
     pkg_path = os.path.join(get_package_share_directory('kridtbot'))
+
     xacro_file = os.path.join(pkg_path,'description','robot.urdf.xacro') # main xacro
+    
     # robot_description_config = xacro.process_file(xacro_file).toxml()
     robot_description_config = Command(['xacro ', xacro_file, ' use_sim_system:=', use_sim, ' sim_mode:=', use_sim])
     
@@ -54,5 +56,5 @@ def generate_launch_description():
             default_value='false',
             description='uses ros2_control if true'),
         node_robot_state_publisher,
-        rviz2_node,
+        #rviz2_node,
     ])
