@@ -33,9 +33,17 @@ def generate_launch_description():
         )]
     )
 
+    switch_node = Node(
+        package='kridtbot',
+        executable='switch_node',
+        name='switch_node',
+        parameters=[joy_params],
+    )
+
 
     return LaunchDescription([
         joy_node,
         teleop_node,
         linear_pos,
+        switch_node
     ])

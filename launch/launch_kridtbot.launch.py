@@ -168,14 +168,14 @@ def generate_launch_description():
     suspension_control_spawner_gz = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["suspension_controller"],
+        arguments=["suspension_controller","--inactive"],
         condition=IfCondition(use_sim_config)
     )
 
     suspension_control_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["suspension_controller","--active"],
+        arguments=["suspension_controller","--inactive"],
     )
 
     delayed_suspension_control_spwaner = RegisterEventHandler(
@@ -291,6 +291,7 @@ def generate_launch_description():
         imu_broad_spawner_gz,
         joint_broad_spawner_gz,
         diff_drive_spawner_gz,
+        lin_control_spawner_gz,
         #mecanum_drive_spawner_gz, # use diff or mec 
         suspension_control_spawner_gz,
         delayed_controller_manager,
