@@ -117,10 +117,37 @@ endif()
 
 
 # Install folders
+# Install non-code resources
 install(
-  DIRECTORY config description launch worlds meshes nodes
-  DESTINATION share/${PROJECT_NAME}
+  DIRECTORY config/
+  DESTINATION share/${PROJECT_NAME}/config
 )
+
+install(
+  DIRECTORY description/
+  DESTINATION share/${PROJECT_NAME}/description
+)
+
+install(
+  DIRECTORY launch/
+  DESTINATION share/${PROJECT_NAME}/launch
+)
+
+install(
+  DIRECTORY worlds/
+  DESTINATION share/${PROJECT_NAME}/worlds
+)
+
+install(
+  DIRECTORY meshes/
+  DESTINATION share/${PROJECT_NAME}/meshes
+)
+
+install(
+  DIRECTORY nodes/
+  DESTINATION share/${PROJECT_NAME}/nodes
+)
+
 
 # Tests
 if(BUILD_TESTING)
