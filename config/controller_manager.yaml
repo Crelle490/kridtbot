@@ -14,6 +14,9 @@ controller_manager:
     
     linear_velocity_controller:
       type: velocity_controllers/JointGroupVelocityController
+
+    imu_sensor_broadcaster:
+      type: imu_sensor_broadcaster/IMUSensorBroadcaster
     
     joint_broad:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -69,6 +72,11 @@ one_wheel_trajectory:
     constraints:
       stopped_velocity_tolerance: 0.01
       goal_time: 0.0
+
+imu_sensor_broadcaster: # IMU Sensor Broadcaster
+  ros__parameters:
+    sensor_name: "imu"
+    frame_id:  "imu_link"
 
 lin_trajectory:
   ros__parameters:
