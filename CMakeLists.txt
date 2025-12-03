@@ -59,7 +59,6 @@ ament_target_dependencies(imu_covariance_node rclcpp sensor_msgs)
 ament_target_dependencies(linear_position_pub rclcpp sensor_msgs std_msgs)
 ament_target_dependencies(square_driver rclcpp geometry_msgs)
 ament_target_dependencies(switch_node rclcpp sensor_msgs controller_manager_msgs)
-add_executable(gpt_pose_extractor nodes/gptPoseExtractor.cpp)
 
 ament_target_dependencies(linear_position_pub
   rclcpp
@@ -85,7 +84,8 @@ install(TARGETS
   square_driver
   FKtest
   switch_node
-  gpt_pose_extractor
+  gpt_pose_extractor)
+
 ament_target_dependencies(gpt_pose_extractor 
   rclcpp
   std_msgs 
