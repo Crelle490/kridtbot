@@ -40,6 +40,10 @@ Kridtbot integrates with several external ROS packages and drivers for hardware 
 - https://github.com/ros-perception/pointcloud_to_laserscan
 - https://github.com/odriverobotics/ros_odrive
 - https://github.com/Livox-SDK/livox_ros_driver2
+- https://github.com/luxonis/depthai-ros
+- https://github.com/Crelle490/linear_actuator_calibration_kridtbot
+- https://github.com/Crelle490/bno055_imu_ros2_hardware_interface
+- https://github.com/nich1157/suspension_controller
 
 ## Running examples
 - **Simulation with controllers** (Gazebo):
