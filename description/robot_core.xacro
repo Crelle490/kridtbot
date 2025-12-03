@@ -40,14 +40,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/base_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/base_link.STL"/>
       </geometry>
       <material name="orange"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/base_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/base_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -74,14 +74,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/diff_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/diff_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -121,14 +121,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/left_diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/left_diff_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/left_diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/left_diff_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -158,14 +158,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/left_rear_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/left_rear_lin_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/left_rear_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/left_rear_lin_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -230,14 +230,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/front_left_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/front_left_lin_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/front_left_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/front_left_lin_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -304,14 +304,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/rigth_diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/rigth_diff_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/rigth_diff_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/rigth_diff_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -340,14 +340,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/right_rear_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/right_rear_lin_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/right_rear_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/right_rear_lin_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>
@@ -414,14 +414,14 @@
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/right_front_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/right_front_lin_link.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="file:$(find kridtbot)/meshes/right_front_lin_link.STL"/>
+        <mesh filename="package://kridtbot/meshes/right_front_lin_link.STL"/>
       </geometry>
       <material name="mesh_color"/>
     </collision>

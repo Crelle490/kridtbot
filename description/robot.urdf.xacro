@@ -19,7 +19,6 @@
     <xacro:unless value="$(arg use_sim_system)">
         <xacro:include filename="ros2_control_myactuator.xacro" />
         <xacro:include filename="ros2_control_odrive.xacro" />
-        <xacro:include filename="ros2_control_imu.xacro" />
     </xacro:unless>
 
 </robot> 
