@@ -1,4 +1,5 @@
 # KRIDTBOT
+![Kridtbot field test with mecanum wheels](media/kridtbot.jpg)
 kridtbot is a ROS 2 (ament_cmake) package that bundles the launch files, configurations, and custom nodes used to simulate and drive the Kridtbot mobile platform. It provides Gazebo integration, ros2_control wiring, joystick helpers, and example autonomy utilities so the same package can be used in simulation or on hardware.
 
 ## Package layout
