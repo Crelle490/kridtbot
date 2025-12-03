@@ -58,7 +58,7 @@
             <command_interface name="effort"/>
             <state_interface name="position"/>
             <state_interface name="velocity"/>
-            <state_interface name="effort"/>
+            <statelocalization_interface name="effort"/>
         </joint>
 
         <joint name="left_front_linear">
@@ -72,7 +72,7 @@
 
         <!-- IMU sensor-->
         
-        <sensor name="imu_sensor">
+        <sensor name="imu">
             <param name="frame_id">imu_link</param>
 
             <state_interface name="orientation.x"/>
@@ -88,20 +88,6 @@
         </sensor> 
 
     </ros2_control>
-    
-    <ros2_control name="GazeboSystemIMU" type="sensor">
-
-        <!-- Hardware interface for GZ-->
-        <hardware>
-            <plugin>gz_ros2_control/GazeboSimSystem</plugin>
-        </hardware>
-
-        <!-- All continous joints-->
-        <sensor name="bno055">
-            <param name="frame_id">imu_link</param>
-        </sensor>
-
-    </ros2_control>
 
 
     <gazebo>
@@ -111,4 +97,3 @@
     </gazebo>
     
 </robot>
-

@@ -1,17 +1,14 @@
 
-  // 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
-  
   // Improve:
     // - get map info
     // - pub pose instead of vel
     // - better vosk model with custom words
-
-#include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
-#include "geometry_msgs/msg/twist.hpp"
-#include <curl/curl.h>
-#include <nlohmann/json.hpp>
-#include <string>
+    #include "rclcpp/rclcpp.hpp"
+    #include "std_msgs/msg/string.hpp"
+    #include "geometry_msgs/msg/twist.hpp"
+    #include <curl/curl.h>
+    #include <nlohmann/json.hpp>
+    #include <string>
     
     using json = nlohmann::json;
     using std::placeholders::_1;
@@ -102,12 +99,19 @@
         std::string response;
         struct curl_slist *headers = nullptr;
         headers = curl_slist_append(headers, "Content-Type: application/json");
-        headers = curl_slist_append(headers, "Authorization: Bearer insert-your-api-key-here");
+        
+        const char* api_key = std::getenv("OPENAI_API_KEY");
+        if (!api_key) {
+          throw std::runtime_error("OPENAI_API_KEY environment variable not set");
+        }
+
+        std::string auth_header = std::string("Authorization: Bearer ") + api_key;
+        headers = curl_slist_append(headers, auth_header.c_str());
     
         json payload = {
           {"model", "gpt-3.5-turbo"},
           {"messages", {
-            {{"role", "system"}, {"content", "You are a motor controller that outputs speed based on text input. You output only JSON: {\"linear\":..., \"angular\":...}. Linear velociteis must at max be 0.3 and minimum -0.3. Angular velociteis must be at max 0.5 and minimum -0.5. Forward is positive linear velocity and backwards is negative linear velocity. Right is negative angular velocity and left is negative angular velocity. When told to stop output 0.0 velocites for linear and angular velocities. If the text input dose not relate to motor control commands, ignore them at all cost. Keep publishing the same velocity command until a new velocity command is recived"}},
+            {{"role", "system"}, {"content", "You output only JSON: {\"linear\":..., \"angular\":...}."}},
             {{"role", "user"}, {"content", input}}
           }}
         };
@@ -150,4 +154,3 @@
       curl_global_cleanup();
       return 0;
     }
-  

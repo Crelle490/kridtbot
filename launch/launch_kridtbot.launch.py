@@ -24,22 +24,18 @@ def generate_launch_description():
 
     package_name='kridtbot'
     
-    use_sim_config = LaunchConfiguration('use_sim')
-    
     # Declare use_sim argument
-    use_sim = DeclareLaunchArgument(
-        'use_sim',
-        default_value='false',
-        description='Boolean flag to enable simulation mode'
-    )
-
+    use_sim_config = LaunchConfiguration('use_sim')
+    use_mec_or_diff = 'diff' # 'choose between 'mec' or 'diff' for mecanum or differential drive
+    
     #### Launch 1: Launch the robot state publisher
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory(package_name),'launch','rsp.launch.py'
-                )]), launch_arguments={'use_sim':'true'}.items(),
-                condition=IfCondition(use_sim_config)
+                )]), launch_arguments={'use_sim':'true', 'use_skid':'true'}.items(), # Change false to use mecanum
+                condition=IfCondition(use_sim_config),
     )
+
 
         #### ********** Launch 2: Launch Gazebo or Controller_manager ********** ####
     # Launch gazebo if simulation is enabled
@@ -50,7 +46,7 @@ def generate_launch_description():
                 condition=IfCondition(use_sim_config)
     )
     
-        # Launch controller_manager if simulation is disabled
+    # Launch controller_manager if simulation is disabled
     robot_description = Command([
         'ros2 param get --hide-type /robot_state_publisher robot_description'
     ])
@@ -87,6 +83,15 @@ def generate_launch_description():
             on_start=[diff_drive_spawner]
         ), condition=UnlessCondition(use_sim_config)
     )
+
+    # Mecanum wheel controller for gazebo
+    mecanum_drive_spawner_gz = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["mecanum_drive_controller"],
+        condition=IfCondition(use_sim_config)
+    )
+
 
     # Joint state broadcaster controller
     joint_broad_spawner_gz = Node(
@@ -148,13 +153,35 @@ def generate_launch_description():
     lin_vel_control_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["linear_velocity_controller","--inactive"],
+        arguments=["linear_velocity_controller"],
+        
     )
 
     delayed_lin_vel_control_spwaner = RegisterEventHandler(
         event_handler=OnProcessStart(
             target_action=controller_manager,
             on_start=[lin_vel_control_spawner]
+        ), condition=UnlessCondition(use_sim_config)
+    )
+
+    # Automatic suspension control
+    suspension_control_spawner_gz = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["suspension_controller","--inactive"],
+        condition=IfCondition(use_sim_config)
+    )
+
+    suspension_control_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["suspension_controller","--inactive"],
+    )
+
+    delayed_suspension_control_spwaner = RegisterEventHandler(
+        event_handler=OnProcessStart(
+            target_action=controller_manager,
+            on_start=[suspension_control_spawner]
         ), condition=UnlessCondition(use_sim_config)
     )
 
@@ -197,36 +224,93 @@ def generate_launch_description():
         remappings=[('/cmd_vel_in', 'diff_cont/cmd_vel_unstamped'),
                     ('/cmd_vel_out','/diff_cont/cmd_vel')]
     )
+    twist_stamper_mecanum = Node(
+    package='twist_stamper',
+    executable='twist_stamper',
+    parameters=[{'use_sim_time': True}],  # Or False depending on your setup
+    remappings=[
+        ('/cmd_vel_in', '/cmd_vel'),
+        ('/cmd_vel_out', '/mecanum_drive_controller/reference')
+    ]
+    )
+
+    # launch sensors
+    sensors_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_directory(package_name),'launch','sensors.launch.py'
+        )]), condition=UnlessCondition(use_sim_config)
+    )
 
     # compressed imager
     compressed_image = Node(   # see by choose /out/compressed in ros2 run rqt_image_view rqt_image_view
             package="image_transport",
-            executable="republish",
+            executable="repsuspension_controllerublish",
             arguments=["raw", "in:=/camera/image_raw", "compressed", "out:=/camera/image_raw/compressed"],
             output="screen",
         )
 
+    # Foxglove WebSocket port
+    port_arg = DeclareLaunchArgument(
+        'port',
+        default_value='8765',
+        description='Port number for Foxglove Bridge'
+    )
+    foxglove_bridge = Node(
+        package='foxglove_bridge',
+        executable='foxglove_bridge',
+        name='foxglove_bridge',
+        parameters=[{"port": LaunchConfiguration('port')}],
+        output='screen'
+    )
+
+    imu_cov_node = Node(
+                package="kridtbot",
+                executable="imu_covariance_node",
+                name="imu_covariance_node",
+                output="screen"
+            )
+    
+    ukf_launch = Node(
+                package="robot_localization",
+                executable="ukf_node",
+                name="ukf_filter_node_diff",
+                output="screen",
+                remappings=[
+                    ("/odometry/filtered", "/odom")],
+                parameters=[os.path.join(get_package_share_directory('kridtbot'), "config", "ekf.yaml")],
+            )
+
     
     # Launch all
     return LaunchDescription([
-        use_sim,
+        #use_sim,
         rsp,
         gz_spawner,
         joystick,
         twist_stamper,
-        lin_control_spawner_gz,
         imu_broad_spawner_gz,
         joint_broad_spawner_gz,
         diff_drive_spawner_gz,
+        lin_control_spawner_gz,
+        #mecanum_drive_spawner_gz, # use diff or mec 
+        #suspension_control_spawner_gz,
         delayed_controller_manager,
         delayed_imu_broad_spawner,
-        delayed_lin_control_joy_spawner,    
-        delayed_lin_pos_control_spwaner,    #Only for physical system (calibration)
-        delayed_lin_vel_control_spwaner,    #Only for physical system (calibration)
+        #delayed_lin_control_joy_spawner,    # use delayed spawners for real robot
+        #delayed_lin_pos_control_spwaner,    #Only for physical system (calibration)
+        #delayed_lin_vel_control_spwaner,    #Only for physical system (calibration)
         delayed_joint_broad_spawner,
         delayed_diff_drive_spawner,
-        
+        twist_stamper_mecanum,
+        #delayed_suspension_control_spwaner,
+        port_arg,
+        foxglove_bridge,
+        imu_cov_node,
+        ukf_launch,
+        sensors_launch,
         #compressed_image
-        #diff_drive_spawner,
-        #joint_broad_spawner
+        DeclareLaunchArgument(
+            'use_sim',
+            default_value='false',
+            description='uses ros2_control if true'),
     ])

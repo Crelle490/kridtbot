@@ -98,7 +98,14 @@
             <stddev>2e-3</stddev>
           </noise>
         </z>
+        <w>
+        <noise type="gaussian">
+          <mean>0.0</mean>
+          <stddev>2e-3</stddev>
+        </noise>
+      </w>
       </orientation>
+      <orientation_covariance>0.0001 0 0 0 0 0 0 0 0 0.0001 0 0 0 0 0.0001</orientation_covariance>
         </imu>
  
         </sensor>
@@ -106,4 +113,3 @@
 
     </gazebo>
 </robot>
-

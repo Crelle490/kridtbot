@@ -19,9 +19,9 @@ def generate_launch_description():
     default_world = os.path.join(
         get_package_share_directory(package_name),
         'worlds',
-        'empty.world'
+        'mars.world'
         )    
-    
+
     world = LaunchConfiguration('world')
 
     world_arg = DeclareLaunchArgument(
@@ -30,7 +30,7 @@ def generate_launch_description():
         description='World to load'
         )
     
-    # Include the Gazebo launch file, provided by the ros_gz_sim package
+    # Gazebo launch file
     params = os.path.join(get_package_share_directory(package_name), 'config', 'gz_params.yaml')
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
@@ -38,14 +38,15 @@ def generate_launch_description():
                     launch_arguments={'gz_args': ['-r -v4 --render-engine ogre2 ', world], 'on_exit_shutdown': 'true'}.items()
              )
 
-    # Run the spawner node from the ros_gz_sim package. The entity name doesn't really matter if you only have a single robot.
+    # Spawner node from ros_gz_sim package. 
     spawn_entity = Node(package='ros_gz_sim', executable='create',
                         arguments=['-topic', 'robot_description',
-                                   '-name', 'my_bot',
-                                   '-z', '0.3'],
+                        '-name', 'my_bot',
+                        '-x', '0', '-y', '5', '-z', '2.43', #-x', '0', '-y', '5', '-z', '2.45',
+                        '-R', '0.0', '-P', '0.0', '-Y', '0.0'],
                         output='screen')
     
-    # GZ and ros2 topic bridge
+    # GZ to ros2 topic bridge
     bridge_params = os.path.join(get_package_share_directory(package_name),'config','gz_bridge.yaml')
     ros_gz_bridge = Node(
         package="ros_gz_bridge",

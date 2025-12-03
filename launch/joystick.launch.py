@@ -24,7 +24,7 @@ def generate_launch_description():
     )
 
     linear_pos = TimerAction(
-        period=2.0,  # Wait 2 seconds before starting
+        period=2.0, 
         actions=[Node(
             package='kridtbot',
             executable='linear_position_pub',
@@ -33,9 +33,17 @@ def generate_launch_description():
         )]
     )
 
+    switch_node = Node(
+        package='kridtbot',
+        executable='switch_node',
+        name='switch_node',
+        parameters=[joy_params],
+    )
+
 
     return LaunchDescription([
         joy_node,
         teleop_node,
         linear_pos,
+        switch_node
     ])

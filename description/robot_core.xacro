@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" xmlns:gz="http://gazebosim.org/schema">
 
   <!-- Materials -->
   <material name="orange">
@@ -117,6 +117,7 @@
     <implicitSpringDamper>true</implicitSpringDamper>
   </gazebo>
 
+
   <link name="left_diff_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -176,32 +177,30 @@
   </link>
 
   <gazebo reference="left_rear_lin_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Red</material>
   </gazebo>
 
-  <!-- _____________LEFT REAR wheel ____________-->
-  <joint name="left_rear_wheel" type="continuous">
+  <!-- _____________LEFT REAR motor ____________-->
+  <joint name="left_rear_motor" type="fixed">
     <origin xyz="0.0012158 0 0.2449" rpy="1.5708 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="left_rear_lin_link"/>
-    <child link="left_rear_rev_link"/>
-    <dynamics damping="0.7" friction="1"/>
+    <child link="left_rear_motor_link"/>
   </joint>
 
-  <link name="left_rear_rev_link">
+  <link name="left_rear_motor_link">
     <visual>
-      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <origin xyz="0 0 0.04675" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.0865" length="0.05234"/>
+        <cylinder radius="0.049" length="0.0395"/> <!-- From myactuator specifications-->
       </geometry>
-      <material name="orange"/>
+      <material name="black"/>
     </visual>
     <collision>
-      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.0865" length="0.05234"/>
+        <cylinder radius="0.049" length="0.0395"/>
       </geometry>
-      <material name="mesh_color"/>
     </collision>
     <inertial>
       <mass value="1.01100"/>
@@ -209,13 +208,7 @@
     </inertial>
   </link>
 
-  <gazebo reference="left_rear_rev_link">
-    <material>Gazebo/Orange</material>
-    <mu1 value="3"/>
-    <mu2 value="3"/>
-    <kp>1000000.0</kp>
-    <kd>1.0</kd>
-  </gazebo>
+
 
   <!-- _____________LEFT FRONT LINEAR actuator____________-->
   <joint name="left_front_linear" type="prismatic">
@@ -248,48 +241,35 @@
   </link>
 
   <gazebo reference="left_front_lin_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Red</material>
   </gazebo>
-
-  <!-- _____________LEFT FRONT wheel ____________-->
-  <joint name="left_front_wheel" type="continuous">
+ <!-- _____________LEFT front motor ____________-->
+<joint name="left_front_motor" type="fixed">
     <origin xyz="0.0012158 0 0.2449" rpy="1.5708 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="left_front_lin_link"/>
-    <child link="left_front_rev_link"/>
-    <dynamics damping="0.7" friction="1"/>
+    <child link="left_front_motor_link"/>
   </joint>
 
-  <link name="left_front_rev_link">
+  <link name="left_front_motor_link">
     <visual>
-      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <origin xyz="0 -0.02 0.04675" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.0865" length="0.05234"/>
+        <cylinder radius="0.049" length="0.0395"/> <!-- From myactuator specifications-->
       </geometry>
-      <material name="orange"/>
+      <material name="black"/>
     </visual>
     <collision>
-      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.0865" length="0.05234"/>
+        <cylinder radius="0.049" length="0.0395"/>
       </geometry>
-      <material name="mesh_color"/>
     </collision>
     <inertial>
       <mass value="1.01100"/>
       <inertia ixx="5844491.97e-9" ixy="-376.28e-9" ixz="-3671.08e-9" iyy="5842839.83e-9" iyz="-796.72e-9" izz="3646247.90e-9"/>
     </inertial>
   </link>
-
-  <gazebo reference="left_front_rev_link">
-    <material>Gazebo/Black</material>
-    <mu1 value="3"/>
-    <mu2 value="3"/>
-    <slip1 value="1"/>
-    <slip2 value="1"/>
-    <kp>1000000.0</kp>
-    <kd>1.0</kd>
-  </gazebo>
 
   <!-- _____________ 2. RIGHT DIFF LINK____________-->
   <joint name="right_diff" type="fixed">
@@ -358,32 +338,30 @@
   </link>
 
   <gazebo reference="right_rear_lin_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Red</material>
   </gazebo>
-  
-  <!-- _____________RIGHT REAR wheel ____________-->
-  <joint name="right_rear_wheel" type="continuous">
+
+   <!-- _____________Right REAR motor ____________-->
+  <joint name="right_rear_motor" type="fixed">
     <origin xyz="0.0012158 0 0.2449" rpy="1.5708 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="right_rear_lin_link"/>
-    <child link="right_rear_rev_link"/>
-    <dynamics damping="0.7" friction="1"/>
+    <child link="right_rear_motor_link"/>
   </joint>
-  
-  <link name="right_rear_rev_link">
+
+  <link name="right_rear_motor_link">
     <visual>
-      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <origin xyz="0 0 0.04675" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.0865" length="0.05234"/>
+        <cylinder radius="0.049" length="0.0395"/> <!-- From myactuator specifications-->
       </geometry>
-      <material name="orange"/>
+      <material name="black"/>
     </visual>
     <collision>
-      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.0865" length="0.05234"/>
+        <cylinder radius="0.049" length="0.0395"/>
       </geometry>
-      <material name="mesh_color"/>
     </collision>
     <inertial>
       <mass value="1.01100"/>
@@ -391,15 +369,11 @@
     </inertial>
   </link>
 
-  <gazebo reference="right_rear_rev_link">
-    <material>Gazebo/Orange</material>
-    <mu1 value="3"/>
-    <mu2 value="3"/>
-    <slip1 value="1"/>
-    <slip2 value="1"/>
-    <kp>1000000.0</kp>
-    <kd>1.0</kd>
-  </gazebo>
+  
+  <!-- _____________RIGHT REAR wheel ____________-->
+
+  <!-- See other page -->
+
   
   <!-- _____________RIGHT FRONT LINEAR actuator ____________-->
   <joint name="right_front_linear" type="prismatic">
@@ -432,50 +406,36 @@
   </link>
 
   <gazebo reference="right_front_lin_link">
-    <material>Gazebo/Black</material>
+    <material>Gazebo/Red</material>
   </gazebo>
   
-
-
-  <!-- _____________RIGHT FRONT wheel ____________-->
-  <joint name="right_front_wheel" type="continuous">
+    <!-- _____________Right front motor ____________-->
+  <joint name="right_front_motor" type="fixed">
     <origin xyz="0.0012158 0 0.2449" rpy="1.5708 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="right_front_lin_link"/>
-    <child link="right_front_rev_link"/>
-    <dynamics damping="0.7" friction="1"/>
+    <child link="right_front_motor_link"/>
   </joint>
-  
-  <link name="right_front_rev_link">
+
+  <link name="right_front_motor_link">
     <visual>
-      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <origin xyz="0 0 0.04675" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.0865" length="0.05234"/>
+        <cylinder radius="0.049" length="0.0395"/> <!-- From myactuator specifications-->
       </geometry>
-      <material name="orange"/>
+      <material name="black"/>
     </visual>
     <collision>
-      <origin xyz="0 0 0.06266" rpy="0 0 0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <cylinder radius="0.0865" length="0.05234"/>
+        <cylinder radius="0.049" length="0.0395"/>
       </geometry>
-      <material name="mesh_color"/>
     </collision>
     <inertial>
       <mass value="1.01100"/>
       <inertia ixx="5844491.97e-9" ixy="-376.28e-9" ixz="-3671.08e-9" iyy="5842839.83e-9" iyz="-796.72e-9" izz="3646247.90e-9"/>
     </inertial>
   </link>
-
-  <gazebo reference="right_front_rev_link">
-    <material>Gazebo/Orange</material>
-    <mu1 value="3"/>
-    <mu2 value="3"/>
-    <slip1 value="1"/>
-    <slip2 value="1"/>
-    <kp>1000000.0</kp>
-    <kd>1.0</kd>
-  </gazebo>
 
 
 
@@ -513,10 +473,5 @@
     <mu1 value="1"/>
     <mu2 value="1"/>
   </gazebo>
-
-
-  <!--   Differential gear -->
-
-
 
 </robot>

@@ -5,13 +5,7 @@ controller_manager:
 
     diff_cont:
       type: diff_drive_controller/DiffDriveController
-    
-    one_wheel_trajectory:
-      type: "joint_trajectory_controller/JointTrajectoryController"
-        
-    lin_trajectory:
-      type: "joint_trajectory_controller/JointTrajectoryController"
-
+  
     linear_position_control:
       type: position_controllers/JointGroupPositionController
     
@@ -20,6 +14,9 @@ controller_manager:
     
     linear_velocity_controller:
       type: velocity_controllers/JointGroupVelocityController
+
+    imu_sensor_broadcaster:
+      type: imu_sensor_broadcaster/IMUSensorBroadcaster
     
     joint_broad:
       type: joint_state_broadcaster/JointStateBroadcaster
@@ -35,7 +32,7 @@ linear_position_control:
       - right_front_linear
       - right_rear_linear
 
-linear_position_control_joy:
+linear_position_control_joy: # suspension position control (manual control over joystick)
   ros__parameters:
     joints:
       - right_front_linear
@@ -44,7 +41,7 @@ linear_position_control_joy:
       - right_rear_linear
 
 
-linear_velocity_controller:
+linear_velocity_controller: # suspension velocity control (calibration)
   ros__parameters:
     joints:
       - left_front_linear
@@ -76,6 +73,11 @@ one_wheel_trajectory:
       stopped_velocity_tolerance: 0.01
       goal_time: 0.0
 
+imu_sensor_broadcaster: # IMU Sensor Broadcaster
+  ros__parameters:
+    sensor_name: "imu"
+    frame_id:  "imu_link"
+
 lin_trajectory:
   ros__parameters:
     joints:
@@ -106,7 +108,7 @@ diff_cont:
     left_wheel_names: [ "left_front_wheel","left_rear_wheel"]
     right_wheel_names: [ "right_front_wheel","right_rear_wheel"] # rear and front are swapped
 
-    wheel_separation: .6832 # correct separation gives weird behavior
+    wheel_separation: .6832 
     wheel_radius: 0.09
     wheels_per_side: 2
     left_wheel_radius_multiplier: -1.0
@@ -114,7 +116,30 @@ diff_cont:
     publish_tf: false
 
     publish_rate: 50.0
-    #use_samped_vel: false
+
+
+
+mecanum_drive_controller: # mecanum drive controller
+
+  ros__parameters:
+    reference_timeout: 0.9
+
+    front_left_wheel_command_joint_name: "left_front_wheel"
+    front_right_wheel_command_joint_name: "right_front_wheel"
+    rear_right_wheel_command_joint_name: "right_rear_wheel"
+    rear_left_wheel_command_joint_name: "left_rear_wheel"
+
+    wheel_separation_lr: 0.6832
+    wheel_separation_fb: 0.6832
+
+    kinematics:
+      base_frame_offset: { x: 0.0, y: 0.00, theta: 0.0 }
+      wheels_radius: 0.09
+      sum_of_robot_center_projection_on_X_Y_axis: 0.5745       #sum_of_robot_center_projection_on_X_Y_axis = lx+ly: # (H/2+T/2) = (0.428/2 + 0.721/2)
+
+    base_frame_id: "base_link"
+    odom_frame_id: "odom"
+
 
 suspension_controller:
   ros__parameters:
