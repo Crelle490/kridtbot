@@ -17,19 +17,6 @@ from launch_ros.substitutions import FindPackageShare
 
 def generate_launch_description():
 
-    kridtbot_path = get_package_share_directory("kridtbot")
-
-    # launch lidar, point->scan, slam_toolbox
-    slam_bring_up = IncludeLaunchDescription(
-        os.path.join(get_package_share_directory("kridtbot"), "launch", "lidar_slam2D.launch.py"),
-    )
-
-    # optional: launch 3D lidar slam
-    slam_3d_bring_up = IncludeLaunchDescription(
-        os.path.join(get_package_share_directory("kridtbot"), "launch", "lidar_slam3D.launch.py"),
-    )
-
-    # launch nav2
     nav2_bring_up = IncludeLaunchDescription(
         os.path.join(get_package_share_directory("nav2_bringup"), "launch", "navigation_launch.py"),
         launch_arguments={
@@ -43,8 +30,6 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
-            slam_bring_up,
-            #slam_3d_bring_up,
             nav2_bring_up,
         ]
     )

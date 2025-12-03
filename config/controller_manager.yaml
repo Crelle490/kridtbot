@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 30
+    update_rate: 80
     use_sim_time: false
 
     diff_cont:
@@ -18,22 +18,15 @@ controller_manager:
     joint_broad:
       type: joint_state_broadcaster/JointStateBroadcaster
     
-    imu_sensor_broadcaster:
-       type: imu_sensor_broadcaster/IMUSensorBroadcaster
-
     suspension_controller:
       type: suspension_controller/SuspensionController
 
-    mecanum_drive_controller:
-      type: mecanum_drive_controller/MecanumDriveController
-
-
-linear_position_control: # suspension position control (calibration)
+linear_position_control:
   ros__parameters:
     joints:
-      - right_front_linear
-      - left_rear_linear
       - left_front_linear
+      - left_rear_linear
+      - right_front_linear
       - right_rear_linear
 
 linear_position_control_joy: # suspension position control (manual control over joystick)
@@ -48,28 +41,71 @@ linear_position_control_joy: # suspension position control (manual control over 
 linear_velocity_controller: # suspension velocity control (calibration)
   ros__parameters:
     joints:
-      - right_front_linear
-      - left_rear_linear
       - left_front_linear
+      - left_rear_linear
+      - right_front_linear
       - right_rear_linear
 
-
-
-diff_cont: # differential drive controller
+one_wheel_trajectory:
   ros__parameters:
-    left_wheel_names: ["left_front_wheel", "left_rear_wheel"]
-    right_wheel_names: ["right_front_wheel", "right_rear_wheel"]
+    joints:
+      - left_rear_wheel
+      - left_front_wheel
+      - right_front_wheel
+      - right_rear_wheel
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
+
+    allow_partial_joints_goal: false
+    open_loop_control: true
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0
+
+lin_trajectory:
+  ros__parameters:
+    joints:
+      - left_rear_linear
+      - right_front_linear
+      - right_rear_linear
+      - left_front_linear
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+      - effort
+
+    state_publish_rate: 50.0
+    action_monitor_rate: 20.0
+
+    allow_partial_joints_goal: false
+    open_loop_control: true
+    constraints:
+      stopped_velocity_tolerance: 0.01
+      goal_time: 0.0
+
+diff_cont:
+  ros__parameters:
+    left_wheel_names: [ "left_front_wheel","left_rear_wheel"]
+    right_wheel_names: [ "right_front_wheel","right_rear_wheel"] # rear and front are swapped
 
     wheel_separation: .6832 
     wheel_radius: 0.09
     wheels_per_side: 2
-    left_wheel_radius_multiplier: 1.0
-    #right_wheel_radius_multiplier: -1.0
-    publish_odom: true
-    enable_odom_tf: false
-
-    pose_covariance_diagonal: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
-    twist_covariance_diagonal: [0.01, 0.01, 0.01, 0.01, 0.01, 0.01]
+    left_wheel_radius_multiplier: -1.0
+    right_wheel_radius_multiplier: 1.0
+    publish_tf: false
 
     publish_rate: 50.0
 
@@ -97,40 +133,14 @@ mecanum_drive_controller: # mecanum drive controller
     odom_frame_id: "odom"
 
 
-
-imu_sensor_broadcaster: # IMU Sensor Broadcaster
+suspension_controller:
   ros__parameters:
-    sensor_name: "imu"
-    frame_id:  "imu_link"
+    control_mode: "PID_Complete"
 
-
-
-suspension_controller: # Custom suspension controller
-  ros__parameters:
-    control_mode: "PID_Base"
-
-    reference_pose: [0.0, 0.0, -0.377, 0.0]  # [theta, roll, z]
-    K_P: [1.0, 1.0, 0.1, 0.0]
-    K_I: [0.0, 0.0, 0.0, 0.0]
-    K_D: [0.0, 0.0, 0.0, 0.0]
-
-    #Q_(0,0) = 10.0;   // theta error penalty
-    #Q_(1,1) = 10.0;   // roll error penalty
-    #Q_(2,2) = 0.1;    // z error penalty
-
-    #R_ = 0.1 * Eigen::Matrix4d::Identity();  // actuator penalty
-
-    #joints:
-    #  - left_front_linear
-    #  - left_rear_linear
-    #  - right_front_linear
-    #  - right_rear_linear
-
-    #command_interfaces:
-    #  - position
-
-    #state_interfaces:
-    #  - position
-    #  - velocity
-    #  - effort
-    # Add joints as parameter!
+    reference_pose: [0.0, 0.0, -0.377,0.0]  # [theta, roll, z]
+    K_P: [0.405, 0.9, 0.3,0.0]
+    K_I: [1.1854, 5.218, 0.2,0.0]
+    K_D: [0.0, 0.0388, 0.0,0.0]
+    Q: [0.1, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.8] #[pitch, roll,z]
+    R: 1.0
+  # 0.405 1.1854
