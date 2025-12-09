@@ -294,20 +294,20 @@ def generate_launch_description():
         lin_control_spawner_gz,
         #mecanum_drive_spawner_gz, # use diff or mec 
         suspension_control_spawner_gz,
-        delayed_controller_manager,
-        delayed_imu_broad_spawner,
+        #delayed_controller_manager,
+        #delayed_imu_broad_spawner,
         #delayed_lin_control_joy_spawner,    # use delayed spawners for real robot
         #delayed_lin_pos_control_spwaner,    #Only for physical system (calibration)
         #delayed_lin_vel_control_spwaner,    #Only for physical system (calibration)
-        delayed_joint_broad_spawner,
-        delayed_diff_drive_spawner,
-        twist_stamper_mecanum,
+        #delayed_joint_broad_spawner,
+        #delayed_diff_drive_spawner,
+        #twist_stamper_mecanum,
         #delayed_suspension_control_spwaner,
-        port_arg,
-        foxglove_bridge,
-        imu_cov_node,
-        ukf_launch,
-        sensors_launch,
+        #port_arg,
+        #foxglove_bridge,
+        #imu_cov_node,
+        #ukf_launch,
+        #sensors_launch,
         #compressed_image
         DeclareLaunchArgument(
             'use_sim',
