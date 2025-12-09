@@ -6,7 +6,7 @@ kridtbot is a ROS 2 (ament_cmake) package that bundles the launch files, configu
 
 See [AUTHORS.md](AUTHORS.md) for full credits.
 
-Demostration video: https://drive.google.com/file/d/1zXfvC74qBI-M3vu7jDB2zDL_yreybi06/view?usp=drive_link
+Demostration video [here](https://drive.google.com/file/d/1zXfvC74qBI-M3vu7jDB2zDL_yreybi06/view?usp=drive_link)
 
 ## Package layout
 - **nodes/**: C++ executables for teleoperation, controller switching, and demo behaviors.
