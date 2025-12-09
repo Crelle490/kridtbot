@@ -3,9 +3,10 @@
 <package format="3">
   <name>kridtbot</name>
   <version>0.0.0</version>
-  <description>TODO: Package description</description>
-  <maintainer email="my_email@email.com">MY NAME</maintainer>
-  <license>TODO: License declaration</license>
+  <description>Main packages for controlling the mobile field-robot Kridtbot through ROS2 Jazzy</description>
+  <maintainer email="christian.clt@gmail.com"> Christian Lund Thomsen</maintainer>
+  <maintainer email="kondrup99@hotmail.com"> Nichlas Kondrup</maintainer>
+  <license>Apache 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

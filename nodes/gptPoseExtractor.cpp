@@ -1,6 +1,9 @@
 
+<<<<<<< HEAD
   // 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
   
+=======
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
   // Improve:
     // - get map info
     // - pub pose instead of vel
@@ -101,7 +104,18 @@
         std::string response;
         struct curl_slist *headers = nullptr;
         headers = curl_slist_append(headers, "Content-Type: application/json");
+<<<<<<< HEAD
         headers = curl_slist_append(headers, "Authorization: Bearer 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");
+=======
+        
+        const char* api_key = std::getenv("OPENAI_API_KEY");
+        if (!api_key) {
+          throw std::runtime_error("OPENAI_API_KEY environment variable not set");
+        }
+
+        std::string auth_header = std::string("Authorization: Bearer ") + api_key;
+        headers = curl_slist_append(headers, auth_header.c_str());
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
     
         json payload = {
           {"model", "gpt-3.5-turbo"},

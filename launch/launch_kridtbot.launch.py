@@ -293,9 +293,9 @@ def generate_launch_description():
         diff_drive_spawner_gz,
         lin_control_spawner_gz,
         #mecanum_drive_spawner_gz, # use diff or mec 
-        suspension_control_spawner_gz,
-        #delayed_controller_manager,
-        #delayed_imu_broad_spawner,
+        #suspension_control_spawner_gz,
+        delayed_controller_manager,
+        delayed_imu_broad_spawner,
         #delayed_lin_control_joy_spawner,    # use delayed spawners for real robot
         #delayed_lin_pos_control_spwaner,    #Only for physical system (calibration)
         #delayed_lin_vel_control_spwaner,    #Only for physical system (calibration)

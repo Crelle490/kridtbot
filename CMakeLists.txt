@@ -15,6 +15,17 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 # Vosk paths
+<<<<<<< HEAD
+=======
+set(VOSK_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/../../vosk-api/cpp")
+set(VOSK_LIB_DIR "${CMAKE_SOURCE_DIR}/../../vosk-api/cpp/build")
+
+# Vosk paths
+set(VOSK_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/../../vosk-api/cpp")
+set(VOSK_LIB_DIR "${CMAKE_SOURCE_DIR}/../../vosk-api/cpp/build")
+
+# Vosk paths
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
 #set(VOSK_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/../../vosk-api/cpp")
 #set(VOSK_LIB_DIR "${CMAKE_SOURCE_DIR}/../../vosk-api/cpp/build")
 
@@ -28,6 +39,12 @@ find_package(nav_msgs REQUIRED)
 find_package(controller_manager_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(Threads REQUIRED)
+<<<<<<< HEAD
+=======
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find dependencies
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
 
 # Includes
 include_directories(
@@ -35,6 +52,10 @@ include_directories(
   ${rclcpp_INCLUDE_DIRS}
   ${sensor_msgs_INCLUDE_DIRS}
   ${std_msgs_INCLUDE_DIRS}
+<<<<<<< HEAD
+=======
+  ${geometry_msgs_INCLUDE_DIRS}
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
   ${VOSK_INCLUDE_DIR}
 )
 
@@ -51,6 +72,21 @@ ament_target_dependencies(imu_covariance_node rclcpp sensor_msgs)
 ament_target_dependencies(linear_position_pub rclcpp sensor_msgs std_msgs)
 ament_target_dependencies(square_driver rclcpp geometry_msgs)
 ament_target_dependencies(switch_node rclcpp sensor_msgs controller_manager_msgs)
+<<<<<<< HEAD
+=======
+
+ament_target_dependencies(linear_position_pub
+  rclcpp
+  sensor_msgs
+  std_msgs
+)
+
+ament_target_dependencies(square_driver
+rclcpp
+geometry_msgs
+)
+
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
 ament_target_dependencies(FKtest rclcpp std_msgs)
 ament_target_dependencies(gpt_pose_extractor rclcpp std_msgs geometry_msgs)
 
@@ -64,14 +100,75 @@ install(TARGETS
   square_driver
   FKtest
   switch_node
+<<<<<<< HEAD
+=======
+  gpt_pose_extractor)
+
+ament_target_dependencies(gpt_pose_extractor 
+  rclcpp
+  std_msgs 
+  geometry_msgs)
+
+# Link libraries
+target_link_libraries(gpt_pose_extractor curl)
+
+install(TARGETS 
+  linear_position_pub
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
   gpt_pose_extractor
   DESTINATION lib/${PROJECT_NAME}
 )
 
+<<<<<<< HEAD
 # Install folders
+=======
+install(TARGETS gpt_pose_extractor
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  # the following line skips the linter which checks for copyrights
+  # uncomment the line when a copyright and license is not present in all source files
+  #set(ament_cmake_copyright_FOUND TRUE)
+  # the following line skips cpplint (only works in a git repo)
+  # uncomment the line when this package is not in a git repo
+  #set(ament_cmake_cpplint_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
+
+# Install folders
+# Install non-code resources
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
 install(
-  DIRECTORY config description launch worlds meshes nodes
-  DESTINATION share/${PROJECT_NAME}
+  DIRECTORY config/
+  DESTINATION share/${PROJECT_NAME}/config
+)
+
+install(
+  DIRECTORY description/
+  DESTINATION share/${PROJECT_NAME}/description
+)
+
+install(
+  DIRECTORY launch/
+  DESTINATION share/${PROJECT_NAME}/launch
+)
+
+install(
+  DIRECTORY worlds/
+  DESTINATION share/${PROJECT_NAME}/worlds
+)
+
+install(
+  DIRECTORY meshes/
+  DESTINATION share/${PROJECT_NAME}/meshes
+)
+
+install(
+  DIRECTORY nodes/
+  DESTINATION share/${PROJECT_NAME}/nodes
 )
 
 # Tests
@@ -80,4 +177,11 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
+# Tests
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
+
 ament_package()
+

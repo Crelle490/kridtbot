@@ -13,23 +13,41 @@
       scale_linear_turbo:
         x: 1.0
 
+<<<<<<< HEAD
       axis_angular:
         yaw: 0 
       scale_angular:
         yaw: 0.5
       scale_angular_turbo:  
         yaw: 1.0
+=======
+    axis_angular:
+      yaw: 4 
+    scale_angular:
+      yaw: -0.5
+    scale_angular_turbo:  
+      yaw: -1.0
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
 
       enable_button: 6
       enable_turbo_button: 7
 
       require_enable_button: false
 
+<<<<<<< HEAD
   linear_position_pub:
     ros__parameters:
       min_value: -0.005
       max_value: 0.10
       axis_index: 4
+=======
+linear_position_pub:
+  ros__parameters:
+    min_value: 0.0
+    max_value: 0.10
+    axis_index_x: 4
+    axis_index_y: 3
+>>>>>>> f44e6e607bbee2c6f55731c1c43ac7b8896a4367
 
       
     

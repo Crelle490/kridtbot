@@ -12,7 +12,9 @@ def generate_launch_description():
         executable="ukf_node",
         name="ukf_filter_node",
         output="screen",
-        parameters=[os.path.join(kridtbot_path, "config", "ekf.yaml"), {"use_sim_time": False}],
+        remappings=[
+            ("/odometry/filtered", "/odom")],
+        parameters=[os.path.join(kridtbot_path, "config/ekf.yaml")],
     )
 
 
