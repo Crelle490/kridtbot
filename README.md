@@ -10,7 +10,7 @@ See [AUTHORS.md](AUTHORS.md) for full credits.
 ## Package layout
 - **nodes/**: C++ executables for teleoperation, controller switching, and demo behaviors.
 - **launch/**: Launch descriptions for simulation, navigation, localization, sensor bridges, and auxiliary tools.
-- **config/**: Controller, joystick, and SLAM configuration YAML files referenced by the launch descriptions.
+- **config/**: Controller, joystick, navigation, filter and SLAM configuration YAML files referenced by the launch descriptions.
 - **description/** and **meshes/**: URDF/xacro description and 3D assets for the robot model.
 - **worlds/**: Gazebo world definitions for simulation scenes.
 
